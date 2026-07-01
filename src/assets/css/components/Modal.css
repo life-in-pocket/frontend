@@ -1,0 +1,44 @@
+.modal {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 15rem 1fr;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.modal-time-picker {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 1rem;
+    border-radius: 20px;
+
+    background-color: var(--second-accent-color);
+    color: var(--text-color);
+}
+
+.modal-edit {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
+.modal-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+
+    row-gap: 2rem;
+    padding: 3rem;
+}

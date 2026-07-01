@@ -1,0 +1,13 @@
+.progress {
+    width: 100%;
+    border: 2px solid var(--dark);
+    border-radius: 20px;
+    background-color: #b0b2ce
+}
+
+.bar {
+    width: 25%;
+    border-radius: 20px;
+    height: 2rem;
+    background-color: var(--second-accent-color);
+}
