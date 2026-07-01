@@ -1,7 +1,13 @@
+import React, {useState} from "react"
 import DevelopmentBlok from "../features/day-dashboard/DevelopmentBlok"
 import "../assets/css/components/Modal.css"
 
 function Modal() {
+    const [isEditing, setIsEditing] = useState(false);
+
+    const editDashboard = () => {
+        setIsEditing(!isEditing);
+    };
 
     return (
         <div className="modal">
@@ -22,14 +28,13 @@ function Modal() {
                 </div>
             </div>
             <div className="modal-content">
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />
-                <DevelopmentBlok />     
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />
+                <DevelopmentBlok isEditing={isEditing} />     
             </div>
         </div>
     )
