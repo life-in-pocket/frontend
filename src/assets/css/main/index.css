@@ -2,10 +2,15 @@
   --background-color: #0F172A;
   --bg-sidebar: #1E293B;
   --text-color: #F8FAFC;
+  --text-color-dark: #1a1c1e;
   --text-primary-color: #8f8f8f;
   --accent-color: #10B981;
   --second-accent-color: #6366F1;
 
+  --accept-color: #0a9063;
+  --reject-color: #b91c1c;
+
+  --light: #e4e4e4;
   --dark: #000000;
 }
 
