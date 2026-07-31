@@ -36,7 +36,8 @@
 .modal-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 2%; 
     align-content: flex-start;
 
     row-gap: 2rem;

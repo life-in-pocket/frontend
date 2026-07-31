@@ -1,0 +1,75 @@
+.edit-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-form {
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    z-index: 1001;
+
+    width: 60%;
+    height: 60%;
+    padding: 2rem;
+
+    background-color: var(--bg-sidebar);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    cursor: pointer;
+}
+
+.edit-form-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-container {
+    font-size: 2rem;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.block-buttons-container {
+    display: flex;
+    height: calc(100% - 6rem);
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.block-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}   
+
+.btn-save {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+}
+
+.btn-delete {
+    background-color: var(--reject-color);
+    color: var(--text-color);
+}
