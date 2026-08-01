@@ -1,8 +1,27 @@
+import React, {useState} from "react"
 import "../../assets/css/features/day-dashboard/EditForm.css"
 import ProgresBar from "../../element/ProgresBar";
 
 
-function EditForm({ onClose, title, time, target }) {
+function EditForm({ onClose, title, setTitle, time, setTime, target, setTarget }) {
+
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value);
+    }
+    
+    const handleTimeChange = (event) => {
+        setTime(event.target.value);
+    }
+
+    const handleTargetChange = (event) => {
+        setTarget(event.target.value);  
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onClose();
+    }
+
     return (
         <div className="edit-form-overlay" >
             <div className="edit-form">
@@ -21,17 +40,39 @@ function EditForm({ onClose, title, time, target }) {
 
                     <div className="form-container block-title-container">
                         <label htmlFor="block-title">Title:</label>
-                        <input type="text" id="block-title" name="block-title" defaultValue={title} />
+                        <input className="form-input" 
+                        type="text" 
+                        id="block-title" 
+                        name="block-title" 
+                        defaultValue={title}
+                        onChange={handleTitleChange} />
                     </div>
                     
                     <div className="form-container block-time-container">
                         <label htmlFor="block-time">Time (hours):</label>
-                        <input type="number" id="block-time" name="block-time" defaultValue={time} step="0.5" min="0" max="24" />
+                        <input className="form-input" 
+                        type="number" 
+                        id="block-time" 
+                        name="block-time"
+                        defaultValue={time} 
+                        step="0.5" 
+                        min="0" 
+                        max="24"
+                        onChange={handleTimeChange} />
                     </div>
 
                     <div className="form-container block-target-container">
                         <label htmlFor="block-target">Target:</label>
-                        <input type="number" id="block-target" name="block-target" defaultValue={target} step="0.5" min="0" max="24" />
+                        <input 
+                        className="form-input" 
+                        type="number" 
+                        id="block-target" 
+                        name="block-target" 
+                        defaultValue={target} 
+                        step="0.5" 
+                        min="0" 
+                        max="24" 
+                        onChange={handleTargetChange}/>
                     </div>
 
                     <ProgresBar currentTime={time} targetTime={target} />

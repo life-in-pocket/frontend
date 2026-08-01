@@ -43,7 +43,7 @@ function DevelopmentBlok({ isEditing }) {
             <ProgresBar currentTime={time} targetTime={target} />
             <p className="blok-description">target: {time}/{target}</p>
 
-            {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} title={title} time={time} target={target} />}
+            {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} title={title} setTitle={setTitle} time={time} setTime={setTime} target={target} setTarget={setTarget} />}
         </article>
     )
 }

@@ -46,11 +46,26 @@
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
+    align-items: center;    
+}
+
+.form-input {
+    font-size: 2rem;
+    padding: 0.5rem;
+    border: 2px solid var(--text-color);
+    border-radius: 7px;
+}
+
+.form-input:focus,
+.form-input:hover {
+    outline: none;
+    border-color: var(--second-accent-color);
+    box-shadow: 0 0 5px var(--second-accent-color);
 }
 
 .block-buttons-container {
     display: flex;
-    height: calc(100% - 6rem);
+    height: calc(100% - 6rem - 5rem);
     justify-content: flex-end;
     align-items: flex-end;
     gap: 1rem;
@@ -65,7 +80,7 @@
 }   
 
 .btn-save {
-    background-color: var(--accent-color);
+    background-color: var(--accept-color);
     color: var(--text-color);
 }
 
