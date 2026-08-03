@@ -1,12 +1,23 @@
 import React, {useState} from "react"
 import DevelopmentBlok from "../features/day-dashboard/DevelopmentBlok"
+import СreateBlokCard from "../features/day-dashboard/CreateBlokCard"
 import "../assets/css/components/Modal.css"
 
 function Modal() {
+    const blockList = [
+        { id: 1, title: "Selfdevelopment", time: 7.5, target: 8 },
+        { id: 2, title: "Work", time: 5, target: 6 }
+    ];
+
     const [isEditing, setIsEditing] = useState(false);
+    const [blocks, setBlocks] = useState(blockList);
 
     const editDashboard = () => {
         setIsEditing(!isEditing);
+    };
+
+    const createNewBlock = () => {
+        setBlocks([...blocks, { id: blocks.length + 1, title: "New Block", time: 0, target: 0 }]);
     };
 
     return (
@@ -28,13 +39,10 @@ function Modal() {
                 </div>
             </div>
             <div className="modal-content">
-                <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />
-                <СreateBlokCard style={{ display: isEditing ? 'block' : 'none' }} />     
+                {blocks.map(block => (
+                    <DevelopmentBlok key={block.id} title={block.title} time={block.time} target={block.target} isEditing={isEditing} />
+                ))}
+                <СreateBlokCard onAdd={createNewBlock} style={{ display: isEditing ? 'none' : 'block' }} />     
             </div>
         </div>
     )
