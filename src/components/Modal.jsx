@@ -34,7 +34,7 @@ function Modal() {
                 <DevelopmentBlok isEditing={isEditing} />
                 <DevelopmentBlok isEditing={isEditing} />
                 <DevelopmentBlok isEditing={isEditing} />
-                <DevelopmentBlok isEditing={isEditing} />     
+                <СreateBlokCard style={{ display: isEditing ? 'block' : 'none' }} />     
             </div>
         </div>
     )

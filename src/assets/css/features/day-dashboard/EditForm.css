@@ -29,10 +29,24 @@
 
 .edit-form-close {
     position: absolute;
+    z-index: 1002;
     top: 1rem;
     right: 1rem;
-
     cursor: pointer;
+}
+
+.edit-form-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-form-close-svg {  
+    color: var(--text-color);
+
+    &:hover {
+        color: var(--second-accent-color);
+    }
 }
 
 .edit-form-title {
@@ -54,13 +68,13 @@
     padding: 0.5rem;
     border: 2px solid var(--text-color);
     border-radius: 7px;
-}
 
-.form-input:focus,
-.form-input:hover {
-    outline: none;
-    border-color: var(--second-accent-color);
-    box-shadow: 0 0 5px var(--second-accent-color);
+    &:hover,
+    &:focus {
+        outline: none;
+        border-color: var(--second-accent-color);
+        box-shadow: 0 0 5px var(--second-accent-color);
+    }
 }
 
 .block-buttons-container {
