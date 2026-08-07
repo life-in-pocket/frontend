@@ -1,4 +1,5 @@
 import "../../assets/css/features/day-dashboard/EditForm.css"
+import "../../assets/css/object/Buttons.css"
 import ProgresBar from "../../element/ProgresBar";
 
 

@@ -11,13 +11,16 @@ function Modal() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [blocks, setBlocks] = useState(blockList);
+    const [newBlockTitle, setNewBlockTitle] = useState("New Block");
+    const [newBlockTime, setNewBlockTime] = useState(0);
+    const [newBlockTarget, setNewBlockTarget] = useState(1);
 
     const editDashboard = () => {
         setIsEditing(!isEditing);
     };
 
     const createNewBlock = () => {
-        setBlocks([...blocks, { id: blocks.length + 1, title: "New Block", time: 0, target: 0 }]);
+        setBlocks([...blocks, { id: blocks.length + 1, title: newBlockTitle, time: newBlockTime, target: newBlockTarget }]);
     };
 
     return (
@@ -42,7 +45,16 @@ function Modal() {
                 {blocks.map(block => (
                     <DevelopmentBlok key={block.id} title={block.title} time={block.time} target={block.target} isEditing={isEditing} />
                 ))}
-                <СreateBlokCard onAdd={createNewBlock} style={{ display: isEditing ? 'none' : 'block' }} />     
+                <СreateBlokCard 
+                onAdd={createNewBlock} 
+                title={newBlockTitle} 
+                setTitle={setNewBlockTitle} 
+                time={newBlockTime} 
+                setTime={setNewBlockTime} 
+                target={newBlockTarget} 
+                setTarget={setNewBlockTarget} 
+                isEditing={isEditing}
+                />     
             </div>
         </div>
     )
