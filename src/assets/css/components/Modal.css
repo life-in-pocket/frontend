@@ -14,19 +14,6 @@
     font-weight: 600;
 }
 
-.modal-time-picker {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-
-    padding: 1rem;
-    border-radius: 20px;
-
-    background-color: var(--second-accent-color);
-    color: var(--text-color);
-}
-
 .modal-edit {
     position: absolute;
     top: 2rem;
@@ -44,15 +31,3 @@
     padding: 3rem;
 }
 
-.modal-arrow {
-    width: 2rem;
-    height: 2rem;
-
-    color: var(--text-color);
-    cursor: pointer;
-}   
-
-.modal-clock {
-    font-weight: 600;
-    cursor: pointer;
-}
