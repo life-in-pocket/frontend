@@ -43,3 +43,16 @@
     row-gap: 2rem;
     padding: 3rem;
 }
+
+.modal-arrow {
+    width: 2rem;
+    height: 2rem;
+
+    color: var(--text-color);
+    cursor: pointer;
+}   
+
+.modal-clock {
+    font-weight: 600;
+    cursor: pointer;
+}

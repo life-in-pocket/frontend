@@ -3,7 +3,7 @@ import "../../assets/css/features/day-dashboard/DevelopmentBlok.css"
 import ProgresBar from "../../element/ProgresBar";
 import EditForm from "./EditForm";
 
-function DevelopmentBlok({ isEditing, title: initialTitle, time: initialTime, target: initialTarget }) {
+function DevelopmentBlok({ isEditing, deleteBlock, title: initialTitle, time: initialTime, target: initialTarget }) {
     const [time, setTime] = useState(initialTime);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [title, setTitle] = useState(initialTitle);
@@ -42,7 +42,7 @@ function DevelopmentBlok({ isEditing, title: initialTitle, time: initialTime, ta
             <ProgresBar currentTime={time} targetTime={target} />
             <p className="blok-description">target: {time}/{target}</p>
 
-            {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} title={title} setTitle={setTitle} time={time} setTime={setTime} target={target} setTarget={setTarget} />}
+            {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} onDelete={deleteBlock} title={title} setTitle={setTitle} time={time} setTime={setTime} target={target} setTarget={setTarget} />}
         </article>
     )
 }

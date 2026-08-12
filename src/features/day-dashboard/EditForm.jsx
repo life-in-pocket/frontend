@@ -3,7 +3,7 @@ import "../../assets/css/object/Buttons.css"
 import ProgresBar from "../../element/ProgresBar";
 
 
-function EditForm({ onClose, title, setTitle, time, setTime, target, setTarget }) {
+function EditForm({ onClose, onDelete, title, setTitle, time, setTime, target, setTarget }) {
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -87,7 +87,7 @@ function EditForm({ onClose, title, setTitle, time, setTime, target, setTarget }
 
                     <div className="form-container block-buttons-container">
                         <button className="block-button btn-save" type="submit">Save</button>
-                        <button className="block-button btn-delete" type="button">Delete</button>
+                        <button className="block-button btn-delete" type="button" onClick={onDelete}>Delete</button>
                     </div>
                 </form>
             </div>
