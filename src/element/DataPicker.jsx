@@ -36,7 +36,7 @@ function DataPicker() {
 
             </div>
 
-            {isCalendarOpen && <Calendar sellectedDate={datatime} setSellectedDate={setDatatime} />}
+            {isCalendarOpen && <Calendar sellectedDate={datatime} setSellectedDate={setDatatime} onClose={() => {setIsCalendarOpen(false)}}/>}
         </>
     )
 }

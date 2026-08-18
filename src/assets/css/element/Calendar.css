@@ -1,0 +1,92 @@
+.calendar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.calendar {
+    position: fixed;
+    z-index: 1001;
+
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    width: 40rem;
+    height: 35rem;
+    
+
+    display: flex;
+    flex-direction: column;
+
+
+    background-color: var(--background-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.calendar-close-svg:hover {
+    background-color: var(--second-accent-color);
+}
+
+.calendar-title {
+    text-align: center;
+    font-size: 2.4rem;
+}
+
+.calendar-choose-month {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5rem;
+}
+
+.calendar-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.calendar-body {
+    display: flex;
+    flex-direction: column;
+
+    font-size: 2.1rem;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day {
+    cursor: pointer;
+}
+
+.other-month {
+    color: var(--text-primary-color);
+    
+    cursor: default;
+}
+
+
+.calendar-day,
+.weekday {
+    text-align: center;
+}
+
+.select-day {
+    background-color: var(--second-accent-color);
+    border-radius: 50px;
+    cursor: default;
+}
