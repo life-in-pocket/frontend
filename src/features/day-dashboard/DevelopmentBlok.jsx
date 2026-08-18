@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../assets/css/features/day-dashboard/DevelopmentBlok.css"
 import ProgresBar from "../../element/ProgresBar";
 import EditForm from "./EditForm";
+import Note from "./Note";
 
 function DevelopmentBlok({ isEditing, deleteBlock, title: initialTitle, time: initialTime, target: initialTarget }) {
     const [time, setTime] = useState(initialTime);
@@ -43,6 +44,7 @@ function DevelopmentBlok({ isEditing, deleteBlock, title: initialTitle, time: in
             <p className="blok-description">target: {time}/{target}</p>
 
             {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} onDelete={deleteBlock} title={title} setTitle={setTitle} time={time} setTime={setTime} target={target} setTarget={setTarget} />}
+            {!isEditing && isFormOpen && <Note onClose={() => setIsFormOpen(false)} title={title}/>}
         </article>
     )
 }
