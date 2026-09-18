@@ -1,27 +1,31 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import DevelopmentBlok from "../features/day-dashboard/DevelopmentBlok"
 import СreateBlokCard from "../features/day-dashboard/CreateBlokCard"
 import "../assets/css/components/Modal.css"
 import DataPicker from "../element/DataPicker";
+import { getTasks, createTask } from "../api/tasks";
 
 function Modal() {
-    const blockList = [
-        { id: 1, title: "Selfdevelopment", time: 7.5, target: 8 },
-        { id: 2, title: "Work", time: 5, target: 6 }
-    ];
 
     const [isEditing, setIsEditing] = useState(false);
-    const [blocks, setBlocks] = useState(blockList);
+    const [blocks, setBlocks] = useState([]);
     const [newBlockTitle, setNewBlockTitle] = useState("New Block");
     const [newBlockTime, setNewBlockTime] = useState(0);
     const [newBlockTarget, setNewBlockTarget] = useState(1);
+
+    useEffect(() => {
+        getTasks().then(setBlocks);
+    }, []);
 
     const editDashboard = () => {
         setIsEditing(!isEditing);
     };
 
     const createNewBlock = () => {
-        setBlocks([...blocks, { id: blocks.length + 1, title: newBlockTitle, time: newBlockTime, target: newBlockTarget }]);
+        createTask({ title: newBlockTitle, time: newBlockTime, target: newBlockTarget })
+            .then(newBlock => {
+                setBlocks([...blocks, newBlock]);
+            });
     };
 
     const deleteBlock = (id) => {
