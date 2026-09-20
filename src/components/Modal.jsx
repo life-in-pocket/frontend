@@ -3,7 +3,7 @@ import DevelopmentBlok from "../features/day-dashboard/DevelopmentBlok"
 import СreateBlokCard from "../features/day-dashboard/CreateBlokCard"
 import "../assets/css/components/Modal.css"
 import DataPicker from "../element/DataPicker";
-import { getTasks, createTask } from "../api/tasks";
+import { getTasks, createTask, deleteTask } from "../api/tasks";
 
 function Modal() {
 
@@ -29,8 +29,10 @@ function Modal() {
     };
 
     const deleteBlock = (id) => {
-        setBlocks(blocks.filter(block => block.id !== id));
-    }
+        deleteTask(id).then(() => {
+            setBlocks(blocks.filter(block => block.id !== id));
+        });
+    };
 
     return (
         <div className="modal">
@@ -44,7 +46,7 @@ function Modal() {
             </div>
             <div className="modal-content">
                 {blocks.map(block => (
-                    <DevelopmentBlok key={block.id} deleteBlock={() => deleteBlock(block.id)} title={block.title} time={block.time} target={block.target} isEditing={isEditing} />
+                    <DevelopmentBlok block={block} key={block.id} deleteBlock={() => deleteBlock(block.id)} isEditing={isEditing} />
                 ))}
                 <СreateBlokCard 
                 onAdd={createNewBlock} 

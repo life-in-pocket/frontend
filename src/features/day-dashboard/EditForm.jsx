@@ -1,24 +1,22 @@
 import "../../assets/css/features/day-dashboard/EditForm.css"
 import "../../assets/css/object/Buttons.css"
 import ProgresBar from "../../element/ProgresBar";
+import { useState } from "react";
 
 
-function EditForm({ onClose, onDelete, title, setTitle, time, setTime, target, setTarget }) {
+function EditForm({ onClose, onDelete, onSave, initialTitle, initialTime, initialTarget }) {
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value);
-    }
-    
-    const handleTimeChange = (event) => {
-        setTime(event.target.value);
-    }
+    const [title, setTitle] = useState(initialTitle);
+    const [time, setTime] = useState(initialTime);
+    const [target, setTarget] = useState(initialTarget);
 
-    const handleTargetChange = (event) => {
-        setTarget(event.target.value);  
-    }
+    const handleTitleChange = (event) => setTitle(event.target.value);
+    const handleTimeChange = (event) => setTime(event.target.value);
+    const handleTargetChange = (event) => setTarget(event.target.value);  
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        onSave({ title, time, target });
         onClose();
     }
 
