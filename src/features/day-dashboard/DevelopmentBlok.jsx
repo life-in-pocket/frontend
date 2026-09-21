@@ -3,34 +3,52 @@ import "../../assets/css/features/day-dashboard/DevelopmentBlok.css"
 import ProgresBar from "../../element/ProgresBar";
 import EditForm from "./EditForm";
 import Note from "./Note";
-import { updateTime, updateTask } from "../../api/tasks";
+import { updateTime, updateTask, updateDescription } from "../../api/tasks";
 
 function DevelopmentBlok({ block, isEditing, deleteBlock }) {
-    const [time, setTime] = useState(block.time);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [time, setTime] = useState(block.time);
     const [title, setTitle] = useState(block.title);
     const [target, setTarget] = useState(block.target);
+    const [description, setDescription] = useState(block.description || "");
+
+    const [isTimeUpdating, setIsTimeUpdating] = useState(false);
 
     const timeIncrease = (event) => {
         event.stopPropagation();
-        updateTime(block.id, {...block, time: time + 0.5 }).then(() => {
-            setTime(prevTime => prevTime + 0.5);
-        }).catch((error) => {
-            console.error(`Failed to update time for block with id ${block.id}:`, error);
-        })
-    };
+        if (isTimeUpdating) return;
 
-    const timeDecrease = (event) => {
-        event.stopPropagation();
-        if (time <= 0) return; 
-        const newTime = time - 0.5;
+        const newTime = time + 0.5;
+        setIsTimeUpdating(true);
 
-        updateTime(block.id, { ...block, time: newTime })
+        updateTime(block.id, { title, time: newTime, target })
             .then(() => {
                 setTime(newTime);
             })
             .catch((error) => {
                 console.error(`Failed to update time for block with id ${block.id}:`, error);
+            })
+            .finally(() => {
+                setIsTimeUpdating(false);
+            });
+    };
+
+    const timeDecrease = (event) => {
+        event.stopPropagation();
+        if (isTimeUpdating || time <= 0) return;
+
+        const newTime = time - 0.5;
+        setIsTimeUpdating(true);
+
+        updateTime(block.id, { title, time: newTime, target })
+            .then(() => {
+                setTime(newTime);
+            })
+            .catch((error) => {
+                console.error(`Failed to update time for block with id ${block.id}:`, error);
+            })
+            .finally(() => {
+                setIsTimeUpdating(false);
             });
     };
 
@@ -40,6 +58,14 @@ function DevelopmentBlok({ block, isEditing, deleteBlock }) {
         setTarget(updatedBlock.target);
         updateTask(block.id, updatedBlock).catch((error) => {
             console.error(`Failed to update block with id ${block.id}:`, error);
+        });
+    }
+
+    const handleSaveDescription = (description) => {
+        updateDescription(block.id, { ...block, description }).then(() => {
+            setDescription(description);
+        }).catch((error) => {
+            console.error(`Failed to update description for block with id ${block.id}:`, error);
         });
     }
 
@@ -68,7 +94,7 @@ function DevelopmentBlok({ block, isEditing, deleteBlock }) {
             <p className="blok-description">target: {time}/{target}</p>
 
             {isEditing && isFormOpen && <EditForm onClose={() => setIsFormOpen(false)} onDelete={deleteBlock} onSave={handleSaveMethod} initialTitle={title} initialTime={time} initialTarget={target} />}
-            {!isEditing && isFormOpen && <Note onClose={() => setIsFormOpen(false)} title={title}/>}
+            {!isEditing && isFormOpen && <Note onClose={() => setIsFormOpen(false)} onSave={(description) => handleSaveDescription(description)} block={{...block, description}}/>}
         </article>
     )
 }

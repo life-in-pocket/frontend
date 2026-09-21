@@ -11,8 +11,8 @@ function EditForm({ onClose, onDelete, onSave, initialTitle, initialTime, initia
     const [target, setTarget] = useState(initialTarget);
 
     const handleTitleChange = (event) => setTitle(event.target.value);
-    const handleTimeChange = (event) => setTime(event.target.value);
-    const handleTargetChange = (event) => setTarget(event.target.value);  
+    const handleTimeChange = (event) => setTime(event.target.valueAsNumber);
+    const handleTargetChange = (event) => setTarget(event.target.valueAsNumber);  
 
     const handleSubmit = (event) => {
         event.preventDefault();
