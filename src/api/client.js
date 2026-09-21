@@ -12,12 +12,11 @@ async function request(endpoint, options = {}) {
 
     if (!response.ok) {
         const errorData = await response.json();
-        console.log("Деталі помилки з бекенду:", errorData);
-        console.log("Деталі помилки:", JSON.stringify(errorData, null, 2));
         throw new Error(errorData.message || "An error occurred");
     }
     
-    return response.json();
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
 }
 
 export default request;
