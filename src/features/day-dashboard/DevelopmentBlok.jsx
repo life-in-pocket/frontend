@@ -8,7 +8,7 @@ import { updateTime, updateTask, updateDescription } from "../../api/tasks";
 function DevelopmentBlok({ block, isEditing, deleteBlock }) {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [time, setTime] = useState(block.time);
-    const [title, setTitle] = useState(block.title);
+    const [title, setTitle] = useState(block.task.title);
     const [target, setTarget] = useState(block.target);
     const [description, setDescription] = useState(block.description || "");
 
@@ -21,7 +21,7 @@ function DevelopmentBlok({ block, isEditing, deleteBlock }) {
         const newTime = time + 0.5;
         setIsTimeUpdating(true);
 
-        updateTime(block.id, { title, time: newTime, target })
+        updateTime(block.id, newTime)
             .then(() => {
                 setTime(newTime);
             })
@@ -40,7 +40,7 @@ function DevelopmentBlok({ block, isEditing, deleteBlock }) {
         const newTime = time - 0.5;
         setIsTimeUpdating(true);
 
-        updateTime(block.id, { title, time: newTime, target })
+        updateTime(block.id, newTime)
             .then(() => {
                 setTime(newTime);
             })

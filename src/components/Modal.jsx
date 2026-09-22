@@ -5,6 +5,12 @@ import "../assets/css/components/Modal.css"
 import DataPicker from "../element/DataPicker";
 import { getTasks, createTask, deleteTask } from "../api/tasks";
 
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');        const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 function Modal() {
 
     const [isEditing, setIsEditing] = useState(false);
@@ -12,16 +18,14 @@ function Modal() {
     const [newBlockTitle, setNewBlockTitle] = useState("New Block");
     const [newBlockTime, setNewBlockTime] = useState(0);
     const [newBlockTarget, setNewBlockTarget] = useState(1);
+    const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
 
     useEffect(() => {
-        getTasks(formatDate(new Date())).then(setBlocks);
-    }, []);
+        getTasks(selectedDate).then(setBlocks);
+    }, [selectedDate]);
 
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    const handleDateChange = (date) => {
+        setSelectedDate(formatDate(date));
     }
 
     const editDashboard = () => {
@@ -29,11 +33,19 @@ function Modal() {
     };
 
     const createNewBlock = () => {
-        createTask({ title: newBlockTitle, time: newBlockTime, target: newBlockTarget })
+        const payload = {
+            title: newBlockTitle.trim(),
+            time: Number(newBlockTime) || 0,
+            target: Number(newBlockTarget),
+            date: selectedDate // рядок формату "YYYY-MM-DD"
+        };
+
+        createTask(payload)
             .then(newBlock => {
-                setBlocks([...blocks, 
-                    {newBlock, id: newBlock.id, task_id: newBlock.task.id, title: newBlock.task.title, time: newBlock.time, target: newBlock.target}
-                ]);
+                setBlocks(prevBlocks => [...prevBlocks, newBlock]);
+            })
+            .catch(error => {
+                console.error("Failed to create block:", error);
             });
     };
 
@@ -46,7 +58,7 @@ function Modal() {
     return (
         <div className="modal">
             <div className="modal-header">
-                <DataPicker />
+                <DataPicker onSave={handleDateChange} />
                 <div className="modal-edit" onClick={editDashboard}>
                     <svg className="modal-edit-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 20H21M16.5 3.5C16.8978 3.10218 17.4374 2.87868 18 2.87868C18.5626 2.87868 19.1022 3.10218 19.5 3.5C19.8978 3.89782 20.1213 4.43742 20.1213 5C20.1213 5.56258 19.8978 6.10218 19.5 6.5L7 19L3 20L4 16L16.5 3.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

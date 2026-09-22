@@ -1,7 +1,7 @@
 import request from "./client";
 
-export const getTasks = async (date) => request(`/days/${date}/tasks`)
-export const createTask = async (task) => request("/days/day-tasks", {
+export const getTasks = async (date) => request(`/${date}/tasks`)
+export const createTask = async (task) => request("/day-tasks", {
     method: "POST",
     body: JSON.stringify(task),
 });
@@ -13,9 +13,9 @@ export const updateDescription = async (taskId, task) => request(`/${taskId}/des
     method: "PUT",
     body: JSON.stringify(task),
 })
-export const updateTime = async (taskId, task) => request(`/${taskId}`, {
+export const updateTime = async (taskId, time) => request(`/${taskId}/time`, {
     method: "PATCH",
-    body: JSON.stringify(task),
+    body: JSON.stringify({ time }),
 })
 export const deleteTask = async (taskId) => request(`/${taskId}`, {
     method: "DELETE",
