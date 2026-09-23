@@ -1,12 +1,14 @@
 import "../../assets/css/features/day-dashboard/Note.css"
 import { useState } from "react"
 
-function Note({ onClose, title }) {
 
-    const [text, setText] = useState("");
+function Note({ onClose, onSave, block }) {
+
+    const [description, setDescription] = useState(block.description);
 
     const closeForm = (event) => {
         event.stopPropagation();
+        onSave(description);
         onClose();
     }
 
@@ -20,11 +22,11 @@ function Note({ onClose, title }) {
                     </svg>
                 </div>
                 
-                <h2 className="note-title">{title}</h2>
+                <h2 className="note-title">{block.title}</h2>
                 <textarea 
                     className="note-text"
-                    value={text}
-                    onChange={(event) => setText(event.target.value)}
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}
                     placeholder="Write your note...">
                 </textarea>
             </div>

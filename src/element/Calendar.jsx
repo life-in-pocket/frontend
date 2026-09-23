@@ -1,10 +1,9 @@
 import "../assets/css/element/Calendar.css";
 import { useState } from "react"
 
-function Calendar({sellectedDate, setSellectedDate, onClose}) {
+function Calendar({sellectedDate, onClose}) {
 
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    const weekdaysFullName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thuesday", "Friday", "Saturday", "Sunday"]
     const mounths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     const [newDate, setNewDate] = useState(sellectedDate);
@@ -87,8 +86,7 @@ function Calendar({sellectedDate, setSellectedDate, onClose}) {
 
     const closeCalendar = (event) => {
         event.stopPropagation();
-        setSellectedDate(newDate);
-        onClose();
+        onClose(newDate);
     }
 
     return (

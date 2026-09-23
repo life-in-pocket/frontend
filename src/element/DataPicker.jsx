@@ -2,25 +2,34 @@ import React, { useState } from "react";
 import "../assets/css/element/DataPicker.css";
 import Calendar from "./Calendar";
 
-function DataPicker() {
+function DataPicker({ onSave }) {
 
     const [datatime, setDatatime] = useState(new Date());
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     const toggleCalendar = () => {
+        onSave(datatime);
         setIsCalendarOpen(!isCalendarOpen);
+    }
+
+    const handleDateChange = (date) => {
+        setDatatime(date);
+        onSave(date);
+        setIsCalendarOpen(false);
     }
 
     const dateBefore = (event) => {
         const newDate = new Date(datatime);
         newDate.setDate(newDate.getDate() - 1);
         setDatatime(newDate);
+        onSave(newDate);
     }
 
     const dateAfter = (event) => {
         const newDate = new Date(datatime);
         newDate.setDate(newDate.getDate() + 1);
         setDatatime(newDate);
+        onSave(newDate);
     }
 
     return (
@@ -36,7 +45,7 @@ function DataPicker() {
 
             </div>
 
-            {isCalendarOpen && <Calendar sellectedDate={datatime} setSellectedDate={setDatatime} onClose={() => {setIsCalendarOpen(false)}}/>}
+            {isCalendarOpen && <Calendar sellectedDate={datatime} onClose={handleDateChange}/>}
         </>
     )
 }
