@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import DevelopmentBlok from "../features/day-dashboard/DevelopmentBlok"
 import СreateBlokCard from "../features/day-dashboard/CreateBlokCard"
 import "../assets/css/components/Modal.css"
 import DataPicker from "../element/DataPicker";
 import { getTasks, createTask, deleteTask } from "../api/tasks";
+import request from "../api/client";
 
 function formatDate(date) {
     const year = date.getFullYear();
@@ -19,13 +20,24 @@ function Modal() {
     const [newBlockTime, setNewBlockTime] = useState(0);
     const [newBlockTarget, setNewBlockTarget] = useState(1);
     const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
+    const selectedDateRef = useRef(selectedDate);
 
     useEffect(() => {
-        getTasks(selectedDate).then(setBlocks);
+        let cancelled = false; 
+
+        getTasks(selectedDate).then((tasks) => {
+            if (!cancelled) setBlocks(tasks);  
+        });
+
+        return () => {
+            cancelled = true;
+        };
     }, [selectedDate]);
 
     const handleDateChange = (date) => {
-        setSelectedDate(formatDate(date));
+        const nextDate = formatDate(date);
+        selectedDateRef.current = nextDate;
+        setSelectedDate(nextDate);
     }
 
     const editDashboard = () => {
@@ -33,15 +45,17 @@ function Modal() {
     };
 
     const createNewBlock = () => {
+        const requestDate = selectedDate;
         const payload = {
             title: newBlockTitle.trim(),
             time: Number(newBlockTime) || 0,
             target: Number(newBlockTarget),
-            date: selectedDate // рядок формату "YYYY-MM-DD"
+            date: requestDate 
         };
 
         createTask(payload)
             .then(newBlock => {
+                if (selectedDateRef.current !== requestDate) return;
                 setBlocks(prevBlocks => [...prevBlocks, newBlock]);
             })
             .catch(error => {
