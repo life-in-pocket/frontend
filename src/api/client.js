@@ -1,10 +1,12 @@
-const BASE_URL = "http://127.0.0.1:8000/days";
+const BASE_URL = "http://127.0.0.1:8000";
 
 async function request(endpoint, options = {}) {
+    const token = localStorage.getItem("access_token");
     const url = `${BASE_URL}${endpoint}`;
     const response = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
+            ...(token && { Authorization: `Bearer ${token}` }),
             ...options.headers,
         },
         ...options,

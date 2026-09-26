@@ -1,20 +1,39 @@
 import "../assets/css/components/LoginPage.css";
-import loginImg from "../assets/images/loginImg.jpg";
+import AuthForm from "../features/auth/authForm";
+import { Link } from "react-router-dom";
+
+function Fields() {
+  return (
+    <>
+      <input className="auth-form__controls" type="email" placeholder="Email" />
+      <input className="auth-form__controls" type="password" placeholder="Password" />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <>
+      <p>Haven't registered yet? <Link to="/register">Register</Link></p>
+    </>
+  )
+}
 
 function LoginPage() {  
+
+  const handleFormSubmit = (event) => {
+    event.stopPropagation();
+    console.log("Submit")
+  }
+
   return (
-    <div className="login-page">
-      <img className="login-page__img" src={loginImg} alt="Logo" />
-      <article className="login-page__article">
-        <h1 className="login-page__title">Hello in Pocket</h1>
-        <form className="login-page__form">
-          <input className="login-page__controls" type="text" placeholder="Username" />
-          <input className="login-page__controls" type="email" placeholder="Email" />
-          <input className="login-page__controls" type="password" placeholder="Password" />
-          <button className="login-page__button" type="submit">Login</button>
-        </form>
-      </article>
-    </div>
+    <AuthForm
+      onSubmit={handleFormSubmit}
+      error="Not correct password"
+      fields={<Fields />}
+      submitLabel="Login"
+      footer={<Footer />}
+    />
   );
 }
 
