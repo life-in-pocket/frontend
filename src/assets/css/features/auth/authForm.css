@@ -20,6 +20,14 @@
   margin: 15rem 0 7rem 0;
 }
 
+.error {
+  font-size: 1.4rem;
+  color: rgb(220, 71, 71);
+  text-align: center;
+  margin-bottom: 2rem;
+  transform: translateX(-15px)
+}
+
 .auth-form__form {
   display: flex;
   flex-direction: column;
@@ -45,4 +53,11 @@
   &:hover {
     background-color: var(--second-accent-color-hover);
   }
+}
+
+.auth-form__footer {
+  text-align: center;
+  margin-top: 3rem;
+  transform: translateX(-15px);
+  font-size: 1.4rem;
 }
