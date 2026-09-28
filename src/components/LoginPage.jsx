@@ -2,6 +2,7 @@ import { login } from "../api/auth";
 import AuthForm from "../features/auth/AuthForm";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { setToken } from "../api/tokenStorage"
 
 function Fields({email, password, setEmail, setPassword}) {
   return (  
@@ -48,8 +49,8 @@ function LoginPage() {
 
     login({email, password})
       .then((data) => {
-        localStorage.setItem("access_token", data.access_token);
-        navigate("/")
+        setToken(data.access_token);
+        navigate("/pocket")
       })
       .catch(() => {setError("Not correct login or password")})
   };

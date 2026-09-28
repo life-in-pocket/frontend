@@ -1,15 +1,17 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { register } from "../api/auth";
 import AuthForm from "../features/auth/AuthForm";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Fields() {
+function Fields({ username, setUsername, email, setEmail, password, setPassword, passwordConfirm, setPasswordConfirm}) {
   return (  
     <>
       <input 
         name="username" 
         className="auth-form__controls" 
         type="text" 
+        value={username}
+        onChange={(event) => setUsername(event.target.value)}
         placeholder="Username" 
         required 
       />
@@ -17,6 +19,8 @@ function Fields() {
         name="email" 
         className="auth-form__controls" 
         type="email" 
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
         placeholder="Email" 
         required 
       />
@@ -24,6 +28,8 @@ function Fields() {
         name="password" 
         className="auth-form__controls" 
         type="password" 
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
         placeholder="Password" 
         required 
       />
@@ -31,6 +37,8 @@ function Fields() {
         name="confirmPassword" 
         className="auth-form__controls" 
         type="password" 
+        value={passwordConfirm}
+        onChange={(event) => setPasswordConfirm(event.target.value)}
         placeholder="Confirm password" 
         required 
       />
@@ -41,7 +49,7 @@ function Fields() {
 function Footer() {
   return (
     <p>
-      Have existed account? <Link to="/login">Register</Link>
+      Have existed account? <Link to="/login">Login</Link>
     </p>
   );
 }
@@ -51,18 +59,38 @@ function RegisterPage() {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [password]
-    const handleFormSubmit = (event) => {
-    event.preventDefault();
+    const [passwordConfirm, setPasswordConfirm] = useState("")
+    const [error, setError] = useState(null)
+    const navigate = useNavigate()
 
-    register({ username, email, password})
+    const handleFormSubmit = (event) => {
+      event.preventDefault();
+
+      if (password !== passwordConfirm) {
+        setError("Passwords do not match");
+        return;
+      }
+
+      setError(null)
+      register({ username, email, password })
+        .then(() => navigate("/login"))
+        .catch(() => setError("error in register process"))
   };
 
   return (
     <AuthForm
       onSubmit={handleFormSubmit}
-      error={null}
-      fields={<Fields />}
+      error={error}
+      fields={
+      <Fields username={username} 
+        setUsername={setUsername} 
+        email={email} 
+        setEmail={setEmail} 
+        password={password} 
+        setPassword={setPassword} 
+        passwordConfirm={passwordConfirm} 
+        setPasswordConfirm={setPasswordConfirm}
+      />}
       submitLabel="Register"
       footer={<Footer />}
     />

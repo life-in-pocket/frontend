@@ -13,3 +13,17 @@
 .sidebar-title {
     padding-bottom: 4rem;
 }
+
+.sidebar-account {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2rem;
+
+    margin-top: auto; 
+}
+
+.img-user-logo {
+    background-color: black;
+    border-radius: 50%;
+}
