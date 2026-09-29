@@ -1,7 +1,7 @@
 import request from "./client";
 
 export const getTasks = async (date) => request(`/days/${date}/tasks`)
-export const createTask = async (task) => request("days/day-tasks", {
+export const createTask = async (task) => request("/days/day-tasks", {
     method: "POST",
     body: JSON.stringify(task),
 });
@@ -20,3 +20,6 @@ export const updateTime = async (taskId, time) => request(`/days/${taskId}/time`
 export const deleteTask = async (taskId) => request(`/days/${taskId}`, {
     method: "DELETE",
 });
+
+
+export const getUser = () => request("/days/username")
