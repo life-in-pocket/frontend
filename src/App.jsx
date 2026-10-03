@@ -5,6 +5,7 @@ import RegisterPage from "./components/RegisterPage";
 import Sidebar from './components/Sidebar'
 import Modal from './components/Modal'
 import { getToken } from './api/tokenStorage'
+import Statistic from "./components/Statistic";
 
 function ProtectedRoute({ children }) {
   const token = getToken();
@@ -25,6 +26,15 @@ function MainApp() {
   )
 }
 
+function StatisticPage() {
+  return (
+    <div className="app">
+      <Sidebar />
+      <Statistic />
+    </div>
+  )
+}
+
 function App() {
 
   return (
@@ -38,6 +48,11 @@ function App() {
             <MainApp />
           </ProtectedRoute>
         }/>
+        <Route path="/statistics" element={
+          <ProtectedRoute>
+            <StatisticPage />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )

@@ -4,11 +4,11 @@ import СreateBlokCard from "../features/day-dashboard/CreateBlokCard"
 import "../assets/css/components/Modal.css"
 import DataPicker from "../element/DataPicker";
 import { getTasks, createTask, deleteTask } from "../api/tasks";
-import request from "../api/client";
 
 function formatDate(date) {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');        const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');        
+    const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
 

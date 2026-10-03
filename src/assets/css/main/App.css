@@ -1,6 +1,5 @@
 .app {
-  display: grid;
-  grid-template-columns: 300px 1fr;
+  padding-left: 30rem;
   min-height: 100vh;
 }
 
