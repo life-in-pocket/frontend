@@ -24,8 +24,12 @@ function Sidebar() {
         <div className="sidebar">
             <h1 className="sidebar-title">Pocket</h1>
             <ul className="sidebar-list">
-                <li className="sidebar-item">Day</li>
-                <li className="sidebar-item">Analysis</li>
+                <li className="sidebar-item" onClick={() => navigate("/pocket")}>
+                    Tasks
+                </li>
+                <li className="sidebar-item" onClick={() => navigate("/statistics")}>
+                    Statistics
+                </li>
                 <li className="sidebar-item">Media</li>
             </ul>
 

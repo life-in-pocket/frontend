@@ -1,0 +1,28 @@
+.statistic {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 15rem 1fr;
+}
+
+.statistic-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.8rem;
+    font-weight: 600;
+} 
+
+.statistic-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.statistic-empty {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
+}
