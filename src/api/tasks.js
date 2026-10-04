@@ -23,3 +23,4 @@ export const deleteTask = async (taskId) => request(`/days/${taskId}`, {
 
 
 export const getUser = () => request("/days/username")
+export const getStatistic = (firstDate, lastDate) => request(`/days/statistic?first_date=${firstDate}&last_date=${lastDate}`)

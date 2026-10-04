@@ -19,3 +19,10 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 }
+
+.statistic-empty {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
+}

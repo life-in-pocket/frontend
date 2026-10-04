@@ -1,7 +1,9 @@
 import React, {useState, useEffect, useRef} from "react"
 import "../assets/css/components/Statistic.css"
-import DataPicker from "../element/DataPicker";
+import WeekPicker from "../element/WeekPicker";
 import BlockStatistic from "../features/statistic/BlockStatistic";
+import { getStatistic } from "../api/tasks";
+import { fillWeek } from "../utils/fillWeek";
 
 function formatDate(date) {
     const year = date.getFullYear();
@@ -12,25 +14,42 @@ function formatDate(date) {
 
 function Statistic() {
     const [statisticBlocks, setStatisticBlocks] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
-    const selectedDateRef = useRef(selectedDate);
+    const [firstDate, setFirstDate] = useState(null);
+    const [lastDate, setLastDate] = useState(null);
+    const firstDateRef = useRef(firstDate);
+    const lastDateRef = useRef(lastDate);
+
+    useEffect(() => {
+        if (firstDate === null || lastDate === null) return;
+        let cancelled = false;
+        getStatistic(firstDate, lastDate).then((statistic) => {
+            if (!cancelled) setStatisticBlocks(statistic);
+        });
+        return () => { cancelled = true; };
+    }, [firstDate, lastDate]);
+
     
-    const handleDateChange = (date) => {
-        const nextDate = formatDate(date);
-        selectedDateRef.current = nextDate;
-        setSelectedDate(nextDate);
+    const handleDateChange = (newFirstDate, newLastDate) => {
+        newFirstDate = formatDate(newFirstDate);
+        newLastDate = formatDate(newLastDate);
+        firstDateRef.current = newFirstDate;
+        lastDateRef.current = newLastDate;
+        setFirstDate(newFirstDate);
+        setLastDate(newLastDate);
     }
+
     return (
         <div className="statistic">
             <div className="statistic-header">
-                <DataPicker onSave={handleDateChange} />
+                <WeekPicker onSave={handleDateChange} />
             </div>
+            {statisticBlocks.length === 0 && <p className="statistic-empty">No statistics available for the selected week.</p>}
             <div className="statistic-content">
-                <BlockStatistic title="Block Statistics 1" data={statisticBlocks[0]} />
-                <BlockStatistic title="Block Statistics 2" data={statisticBlocks[1]} />
-                <BlockStatistic title="Block Statistics 3" data={statisticBlocks[2]} />
-                <BlockStatistic title="Block Statistics 4" data={statisticBlocks[3]} />
-                <BlockStatistic title="Block Statistics 5" data={statisticBlocks[4]} />
+                {statisticBlocks.length > 0 && (
+                    statisticBlocks.map((block) => (
+                        <BlockStatistic key={block.title} title={block.title} data={fillWeek(block.records, firstDate, lastDate)} />
+                    ))
+                )}
             </div>
         </div>
     )
