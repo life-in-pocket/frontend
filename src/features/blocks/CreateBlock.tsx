@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../../assets/css/features/day-dashboard/CreateBlokCard.css"
 import CreateBlockForm from "./CreateBlockForm";
 
-function CreateBlokCard({ onAdd, title, setTitle, time, setTime, target, setTarget, isEditing }) {
+function CreateBlock({ onSave, title, time, target, isEditing }: { onSave: (title: string, time: number, target: number) => void; title: string; time: number; target: number; isEditing: boolean }) {
 
-    const [isFormOPen, setIsFormOpen] = useState(false);
+const [isFormOPen, setIsFormOpen] = useState(false);
     
     return (
         <>
             {isFormOPen && <CreateBlockForm 
-                onCreate={onAdd}
+                onCreate={onSave}
                 onClose={() => {setIsFormOpen(false)}} 
                 title={title} 
-                setTitle={setTitle} 
                 time={time} 
-                setTime={setTime} 
                 target={target} 
-                setTarget={setTarget} />}
+            />}
 
             <div className="create-blok-card" 
             style={{ display: isEditing ? 'flex' : 'none' }}
@@ -33,4 +31,4 @@ function CreateBlokCard({ onAdd, title, setTitle, time, setTime, target, setTarg
     );
 }
 
-export default CreateBlokCard;
+export default CreateBlock;
