@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "../../assets/css/features/day-dashboard/DevelopmentBlok.css"
-import ProgresBar from "../../element/ProgresBar";
+import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import EditForm from "./EditForm";
 import Note from "./Note";
 import { updateTime, updateTask, updateDescription } from "../../api/tasks";
-import { Task } from "../../components/Modal";
+import { Task } from "../../pages/Modal";
+import "./Block.css";
 
 function Task({ block, deleteBlock, isEditing }: { block: Task, deleteBlock: () => void, isEditing: boolean }) {
     const [isEditingBlock, setIsEditingBlock] = useState<boolean>(false);

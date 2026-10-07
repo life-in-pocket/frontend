@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import './assets/css/main/App.css'
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
-import Sidebar from './components/Sidebar'
-import Modal from './components/Modal'
+import './assets/css/App.css'
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import Sidebar from './features/sidebar/Sidebar'
+import Modal from './pages/Modal'
 import { getToken } from './api/tokenStorage'
-import Statistic from "./components/Statistic";
+import Statistic from "./pages/Statistic";
 
 function ProtectedRoute({ children }) {
   const token = getToken();

@@ -1,4 +1,4 @@
-import "../assets/css/element/Calendar.css";
+import "./Calendar.css";
 import { useState } from "react"
 
 function Calendar({sellectedDate, onClose}) {

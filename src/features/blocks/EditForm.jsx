@@ -1,6 +1,6 @@
-import "../../assets/css/features/day-dashboard/EditForm.css"
-import "../../assets/css/object/Buttons.css"
-import ProgresBar from "../../element/ProgresBar";
+import "./EditForm.css"
+import "../../assets/css/Buttons.css"
+import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import { useState } from "react";
 
 

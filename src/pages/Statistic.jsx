@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react"
-import "../assets/css/components/Statistic.css"
-import WeekPicker from "../element/WeekPicker";
-import BlockStatistic from "../features/statistic/BlockStatistic";
+import "./Statistic.css"
+import WeekPicker from "../components/DatePicker/WeekPicker";
+import BlockStatistic from "../features/statisticBlocks/BlockStatistic";
 import { getStatistic } from "../api/tasks";
 import { fillWeek } from "../utils/fillWeek";
 

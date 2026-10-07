@@ -1,6 +1,6 @@
-import '../assets/css/components/Sidebar.css'
-import { getUser } from '../api/tasks';
-import { deleteToken } from '../api/tokenStorage'
+import './Sidebar.css';
+import { getUser } from '../../api/tasks';
+import { deleteToken } from '../../api/tokenStorage'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

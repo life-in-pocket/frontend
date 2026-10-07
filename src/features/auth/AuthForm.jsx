@@ -1,4 +1,4 @@
-import "../../assets/css/features/auth/authForm.css";
+import "./authForm.css";
 import loginImg from "../../assets/images/loginImg.jpg";
 
 function AuthForm({ onSubmit, error, fields, submitLabel, footer }) {

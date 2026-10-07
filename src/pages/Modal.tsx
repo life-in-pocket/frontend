@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from "react";
 import CreateBlock from "../features/blocks/CreateBlock";
-import "../assets/css/components/Modal.css";
-import DataPicker from "../element/DataPicker";
+import "./Modal.css";
+import DataPicker from "../components/DatePicker/DatePicker";
 import { getTasks, createTask, deleteTask } from "../api/tasks";
 import Block from "../features/blocks/Block";
 

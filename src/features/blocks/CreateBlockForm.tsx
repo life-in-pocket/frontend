@@ -1,12 +1,18 @@
-import "../../assets/css/features/day-dashboard/CreateBlockForm.css"
-import "../../assets/css/object/Buttons.css"
+import "./CreateBlockForm.css"
+import "../../assets/css//Buttons.css"
 import { useState } from "react";
+import ProgresBar from "../../components/ProgresBar/ProgresBar";
+import BlockForm from "../../components/BlockForm/BlockForm";
 
-function CreateBlockForm({ onCreate, onClose, title, time, target }: { onCreate: (title: string, time: number, target: number) => void; onClose: () => void; title: string; time: number; target: number }) {
+function CreateBlockForm({ onCreate, onClose, title, time, target = 1 }: { onCreate: (title: string, time: number, target: number) => void; onClose: () => void; title: string; time: number; target: number }) {
 
     const [temporaryTitle, setTemporaryTitle] = useState(title);
     const [temporaryTime, setTemporaryTime] = useState(time);
     const [temporaryTarget, setTemporaryTarget] = useState(target);
+
+        const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTemporaryTitle(event.target.value);
+        const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => setTemporaryTime(event.target.valueAsNumber);
+        const handleTargetChange = (event: React.ChangeEvent<HTMLInputElement>) => setTemporaryTarget(event.target.valueAsNumber);  
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -15,34 +21,47 @@ function CreateBlockForm({ onCreate, onClose, title, time, target }: { onCreate:
     };
 
     return (
-        <div className="create-block-form-overlay">
-            <div className="create-block-container">
-                <h3 className="create-block-form-title">Create New Block</h3>
-                <form className="create-block-form" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
+        <BlockForm onClose={onClose} onSubmit={handleSubmit}>
+            <div className="form-container block-title-container">
+                    <label htmlFor="block-title">Title:</label>
+                    <input className="form-input" 
+                    type="text" 
+                    id="block-title" 
+                    name="block-title" 
+                    defaultValue={title}
+                    onChange={handleTitleChange} />
+                </div>
+                    
+                <div className="form-container block-time-container">
+                    <label htmlFor="block-time">Time (hours):</label>
+                    <input className="form-input" 
+                    type="number" 
+                    id="block-time" 
+                    name="block-time"
+                    defaultValue={time} 
+                    step="0.5" 
+                    min="0" 
+                    max="24"
+                    onChange={handleTimeChange} />
+                </div>
 
-                    <div className="create-block-form-container">
-                        <label htmlFor="create-title" className="create-block-form-label">Title:</label>
-                        <input id="create-title" type="text" value={temporaryTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTemporaryTitle(e.target.value)} placeholder="Block Title" />
-                    </div>
+                <div className="form-container block-target-container">
+                    <label htmlFor="block-target">Target:</label>
+                    <input 
+                    className="form-input" 
+                    type="number" 
+                    id="block-target" 
+                    name="block-target" 
+                    defaultValue={target} 
+                    step="0.5" 
+                    min="0" 
+                    max="24" 
+                    onChange={handleTargetChange}/>
+                </div>
 
-                    <div className="create-block-form-container">
-                        <label htmlFor="create-time" className="create-block-form-label">Time:</label>
-                        <input id="create-time" type="number" value={temporaryTime} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTemporaryTime(e.target.valueAsNumber)} placeholder="Time" />
-                    </div>
+                <ProgresBar currentTime={time} targetTime={target} />
 
-                    <div className="create-block-form-container">
-                        <label htmlFor="create-target" className="create-block-form-label">Target:</label>
-                        <input id="create-target" type="number" value={temporaryTarget} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTemporaryTarget(e.target.valueAsNumber)} placeholder="Target" />
-                    </div>
-
-                    <div className="create-block-form-buttons">
-                        <button className="block-button btn-save" type="submit">Create</button>
-                        <button className="block-button btn-delete" type="button" onClick={onClose}>Close</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
+        </BlockForm>
     )
 }
 

@@ -1,4 +1,4 @@
-import "../assets/css/element/ProgresBar.css"
+import "./ProgresBar.css"
 
 function ProgresBar({currentTime, targetTime}) {
     const progress = (currentTime / targetTime) * 100;

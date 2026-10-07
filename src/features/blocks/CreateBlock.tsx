@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../assets/css/features/day-dashboard/CreateBlokCard.css"
+import "./CreateBlock.css"
 import CreateBlockForm from "./CreateBlockForm";
 
 function CreateBlock({ onSave, title, time, target, isEditing }: { onSave: (title: string, time: number, target: number) => void; title: string; time: number; target: number; isEditing: boolean }) {

@@ -1,7 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 import { useState } from 'react';
-import '../../assets/css/features/statistic/BlockStatistic.css';
+import './BlockStatistic.css';
 
 
 

@@ -1,4 +1,4 @@
-import "../../assets/css/features/day-dashboard/Note.css"
+import "./Note.css"
 import { useState } from "react"
 
 
