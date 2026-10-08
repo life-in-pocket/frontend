@@ -1,6 +1,26 @@
 import "./BlockForm.css";
+import React from "react";
 
-function BlockForm({ children, onClose, onSubmit }: { children: React.ReactNode; onClose: () => void; onSubmit: (e: React.FormEvent<HTMLFormElement>) => void }) {
+interface BlockFormProps {
+  children: React.ReactNode;
+  onClose: () => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onDelete?: (() => void) | null;
+  title: string;
+  buttons?: boolean;
+  buttonName?: string;
+}
+
+function BlockForm({ children, onClose, onSubmit, onDelete = null, title, buttons, buttonName }: BlockFormProps) {
+
+    const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (onDelete) {
+            onDelete();
+        } else {
+            onClose();
+        }
+    };
 
     return (
         <div className="block-form-overlay">
@@ -23,15 +43,26 @@ function BlockForm({ children, onClose, onSubmit }: { children: React.ReactNode;
                     </button>
                 </div>
 
-                <h3 className="block-form-title">Create New Block</h3>
+                <h3 className="block-form-title">{title}</h3>
 
                 <form className="block-form" onSubmit={(e: React.FormEvent<HTMLFormElement>) => onSubmit(e)}>
                     {children}
 
-                    <div className="form-container block-buttons-container">
-                        <button className="block-button btn-save" type="submit">Save</button>
-                        <button className="block-button btn-delete" type="button" onClick={onClose}>Close</button>
-                    </div>
+                    {buttons && (
+                        <div className="form-container block-buttons-container">
+                            <button className="block-button btn-save" type="submit">
+                                Save
+                            </button>
+                            <button
+                                className="block-button btn-delete"
+                                type="button"
+                                onClick={handleDelete}
+                            >
+                                {buttonName}
+                            </button>
+                        </div>
+                    )}
+                    
                 </form>
             </div>
         </div>

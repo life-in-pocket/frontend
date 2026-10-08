@@ -1,5 +1,4 @@
 import "./CreateBlockForm.css"
-import "../../assets/css//Buttons.css"
 import { useState } from "react";
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import BlockForm from "../../components/BlockForm/BlockForm";
@@ -21,45 +20,45 @@ function CreateBlockForm({ onCreate, onClose, title, time, target = 1 }: { onCre
     };
 
     return (
-        <BlockForm onClose={onClose} onSubmit={handleSubmit}>
+        <BlockForm onClose={onClose} onSubmit={handleSubmit} title="Create New Block" buttons={true} buttonName="Close">
             <div className="form-container block-title-container">
-                    <label htmlFor="block-title">Title:</label>
-                    <input className="form-input" 
-                    type="text" 
-                    id="block-title" 
-                    name="block-title" 
-                    defaultValue={title}
-                    onChange={handleTitleChange} />
-                </div>
+                <label htmlFor="block-title">Title:</label>
+                <input className="form-input" 
+                type="text" 
+                id="block-title" 
+                name="block-title" 
+                defaultValue={title}
+                onChange={handleTitleChange} />
+            </div>
                     
-                <div className="form-container block-time-container">
-                    <label htmlFor="block-time">Time (hours):</label>
-                    <input className="form-input" 
-                    type="number" 
-                    id="block-time" 
-                    name="block-time"
-                    defaultValue={time} 
-                    step="0.5" 
-                    min="0" 
-                    max="24"
-                    onChange={handleTimeChange} />
-                </div>
+            <div className="form-container block-time-container">
+                <label htmlFor="block-time">Time (hours):</label>
+                <input className="form-input" 
+                type="number" 
+                id="block-time" 
+                name="block-time"   
+                defaultValue={time} 
+                step="0.5" 
+                min="0" 
+                max="24"
+                onChange={handleTimeChange} />
+            </div>
 
-                <div className="form-container block-target-container">
-                    <label htmlFor="block-target">Target:</label>
-                    <input 
-                    className="form-input" 
-                    type="number" 
-                    id="block-target" 
-                    name="block-target" 
-                    defaultValue={target} 
-                    step="0.5" 
-                    min="0" 
-                    max="24" 
-                    onChange={handleTargetChange}/>
-                </div>
+            <div className="form-container block-target-container">
+                <label htmlFor="block-target">Target:</label>
+                <input 
+                className="form-input" 
+                type="number" 
+                id="block-target" 
+                name="block-target" 
+                defaultValue={target} 
+                step="0.5" 
+                min="0" 
+                max="24" 
+                onChange={handleTargetChange}/>
+            </div>
 
-                <ProgresBar currentTime={time} targetTime={target} />
+            <ProgresBar currentTime={time} targetTime={target} />
 
         </BlockForm>
     )

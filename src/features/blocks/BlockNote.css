@@ -1,0 +1,17 @@
+.note-text {
+    font-size: 2rem;
+    height: 30rem;
+    width: 100%;
+    color: var(--text-color);
+    background-color: inherit;
+
+    resize: none;
+    border: none;
+    outline: none;
+    scrollbar-width: none;
+
+    &::hover,
+    &::focus {
+        outline: none;
+    }
+}

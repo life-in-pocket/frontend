@@ -1,17 +1,23 @@
-import { useState } from "react";
+import EditBlockForm from "./EditBlockForm";
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
-import EditForm from "./EditForm";
-import Note from "./Note";
+import BlockNote from "./BlockNote";
+import { useState } from "react";
 import { updateTime, updateTask, updateDescription } from "../../api/tasks";
 import { Task } from "../../pages/Modal";
 import "./Block.css";
 
-function Task({ block, deleteBlock, isEditing }: { block: Task, deleteBlock: () => void, isEditing: boolean }) {
+interface BlockProps {
+    block: Task;
+    deleteBlock: () => void;
+    isEditing: boolean;
+}
+
+function Task({ block, deleteBlock, isEditing }: BlockProps) {
     const [isEditingBlock, setIsEditingBlock] = useState<boolean>(false);
     const [time, setTime] = useState<number>(block.time);
     const [target, setTarget] = useState<number>(block.target);
     const [title, setTitle] = useState<string>(block.title);
-    const [description, setDescription] = useState<string | null>(block.description || "");
+    const [description, setDescription] = useState<string>(block.description || "");
 
     const [isTimeUpdating, setIsTimeUpdating] = useState<boolean>(false);
 
@@ -73,7 +79,7 @@ function Task({ block, deleteBlock, isEditing }: { block: Task, deleteBlock: () 
     };
 
     const toggleForm = () => {
-        setIsEditingBlock(prev => !prev);
+        setIsEditingBlock(true);
     }
 
     return (
@@ -96,8 +102,8 @@ function Task({ block, deleteBlock, isEditing }: { block: Task, deleteBlock: () 
             <ProgresBar currentTime={time} targetTime={target} />
             <p className="blok-description">target: {time}/{target}</p>
 
-            {isEditing && isEditingBlock && <EditForm onClose={() => setIsEditingBlock(false)} onDelete={deleteBlock} onSave={handleSaveMethod} initialTitle={title} initialTime={time} initialTarget={target} />}
-            {!isEditing && isEditingBlock && <Note onClose={() => setIsEditingBlock(false)} onSave={(description: string) => handleSaveDescription(description)} block={{...block, description}}/>}
+            {isEditing && isEditingBlock && <EditBlockForm onClose={() => setIsEditingBlock(false)} onDelete={deleteBlock} onSave={handleSaveMethod} initialTitle={title} initialTime={time} initialTarget={target} />}
+            {!isEditing && isEditingBlock && <BlockNote onClose={() => setIsEditingBlock(false)} onSave={(description: string) => handleSaveDescription(description)} block={{...block, description: description ?? ""}}/>}
         </article>
     )
 }
