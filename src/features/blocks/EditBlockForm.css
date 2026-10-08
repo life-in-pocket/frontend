@@ -1,0 +1,87 @@
+.block-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-form {
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    z-index: 1001;
+
+    width: 60%;
+    height: 60%;
+    padding: 2rem;
+
+    background-color: var(--bg-sidebar);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form-close {
+    position: absolute;
+    z-index: 1002;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.edit-form-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-form-close-svg {  
+    color: var(--text-color);
+
+    &:hover {
+        color: var(--second-accent-color);
+    }
+}
+
+.edit-form-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-container {
+    font-size: 2rem;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;    
+}
+
+.form-input {
+    font-size: 2rem;
+    padding: 0.5rem;
+    border: 2px solid var(--text-color);
+    border-radius: 7px;
+
+    &:hover,
+    &:focus {
+        outline: none;
+        border-color: var(--second-accent-color);
+        box-shadow: 0 0 5px var(--second-accent-color);
+    }
+}
+
+.block-buttons-container {
+    display: flex;
+    height: calc(100% - 6rem - 5rem);
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+}
+

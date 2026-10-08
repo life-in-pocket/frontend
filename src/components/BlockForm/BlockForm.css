@@ -1,0 +1,96 @@
+.block-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.block-container {
+    position: fixed;
+    top: 20%;
+    left: 25%;
+    z-index: 1001;
+
+    width: 50%;
+    padding: 2rem;
+
+    background-color: var(--bg-sidebar);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.block-form-close {
+    position: absolute;
+    z-index: 1002;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.block-form-close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.block-form-close-svg {  
+    color: var(--text-color);
+
+    &:hover {
+        color: var(--second-accent-color);
+    }
+}
+
+.block-form-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-input {
+    font-size: 2rem;
+    padding: 0.5rem;
+    border: 2px solid var(--text-color);
+    border-radius: 7px;
+
+    &:hover,
+    &:focus {
+        outline: none;
+        border-color: var(--second-accent-color);
+        box-shadow: 0 0 5px var(--second-accent-color);
+    }
+}
+
+.block-buttons-container {
+    display: flex;
+    margin-top: 5rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.block-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}   
+
+.btn-save {
+    background-color: var(--accept-color);
+    color: var(--text-color);
+}
+
+.btn-delete {
+    background-color: var(--reject-color);
+    color: var(--text-color);
+}
+
