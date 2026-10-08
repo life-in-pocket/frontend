@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import './assets/css/App.css'
+import { getToken } from './api/tokenStorage';
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Sidebar from './features/sidebar/Sidebar'
-import Modal from './pages/Modal'
-import { getToken } from './api/tokenStorage'
+import Modal from './pages/Modal';
 import Statistic from "./pages/Statistic";
+import './assets/css/App.css';
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children }: { children: React.ReactNode }): React.ReactNode {
   const token = getToken();
 
   if (!token) {
@@ -15,24 +14,6 @@ function ProtectedRoute({ children }) {
   }
 
   return children;
-}
-
-function MainApp() {
-  return (
-    <div className="app">
-      <Sidebar />
-      <Modal />
-    </div>
-  )
-}
-
-function StatisticPage() {
-  return (
-    <div className="app">
-      <Sidebar />
-      <Statistic />
-    </div>
-  )
 }
 
 function App() {
@@ -45,12 +26,12 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pocket" element={
           <ProtectedRoute>
-            <MainApp />
+            <Modal />
           </ProtectedRoute>
         }/>
         <Route path="/statistics" element={
           <ProtectedRoute>
-            <StatisticPage />
+            <Statistic />
           </ProtectedRoute>
         } />
       </Routes>

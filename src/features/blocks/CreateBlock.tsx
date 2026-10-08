@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./CreateBlock.css"
 import CreateBlockForm from "./CreateBlockForm";
 
-function CreateBlock({ onSave, title, time, target, isEditing }: { onSave: (title: string, time: number, target: number) => void; title: string; time: number; target: number; isEditing: boolean }) {
+function CreateBlock({ onSave, isEditing }: { onSave: (title: string, time: number, target: number) => void; isEditing: boolean }) {
 
 const [isFormOPen, setIsFormOpen] = useState(false);
     
@@ -11,9 +11,9 @@ const [isFormOPen, setIsFormOpen] = useState(false);
             {isFormOPen && <CreateBlockForm 
                 onCreate={onSave}
                 onClose={() => {setIsFormOpen(false)}} 
-                title={title} 
-                time={time} 
-                target={target} 
+                title={"New Block"} 
+                time={1} 
+                target={2} 
             />}
 
             <div className="create-blok-card" 

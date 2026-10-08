@@ -3,9 +3,12 @@ import { RechartsDevtools } from '@recharts/devtools';
 import { useState } from 'react';
 import './BlockStatistic.css';
 
+interface BlockStatisticProps {
+  title?: string;
+  data: { date: string; time: number }[];
+}
 
-
-function BlockStatistic({ title = 'New Block Statistics', data }) {
+function BlockStatistic({ title = 'New Block Statistics', data }: BlockStatisticProps) {
 
   return (
     <div className="statistic-block">

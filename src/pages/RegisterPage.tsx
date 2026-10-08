@@ -3,7 +3,18 @@ import { register } from "../api/auth";
 import AuthForm from "../features/auth/AuthForm";
 import { Link, useNavigate } from "react-router-dom";
 
-function Fields({ username, setUsername, email, setEmail, password, setPassword, passwordConfirm, setPasswordConfirm}) {
+interface FieldsProps {
+  username: string;
+  setUsername: (username: string) => void;
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  passwordConfirm: string;
+  setPasswordConfirm: (passwordConfirm: string) => void;
+}
+
+function Fields({ username, setUsername, email, setEmail, password, setPassword, passwordConfirm, setPasswordConfirm}: FieldsProps) {
   return (  
     <>
       <input 
@@ -56,14 +67,14 @@ function Footer() {
 
 function RegisterPage() {
 
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordConfirm, setPasswordConfirm] = useState("")
-    const [error, setError] = useState(null)
+    const [username, setUsername] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [passwordConfirm, setPasswordConfirm] = useState<string>("")
+    const [error, setError] = useState<string | null>(null)
     const navigate = useNavigate()
 
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       if (password !== passwordConfirm) {

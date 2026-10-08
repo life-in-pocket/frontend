@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 
 function Sidebar() {
 
-    const [username, setUsername] = useState("")
-    const navigate = useNavigate()
+    const [username, setUsername] = useState<string>("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         getUser()
@@ -50,4 +50,4 @@ function Sidebar() {
     )
 }
 
-export default Sidebar
+export default Sidebar;

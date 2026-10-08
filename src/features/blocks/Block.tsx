@@ -3,7 +3,7 @@ import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import BlockNote from "./BlockNote";
 import { useState } from "react";
 import { updateTime, updateTask, updateDescription } from "../../api/tasks";
-import { Task } from "../../pages/Modal";
+import { Task } from "../../types/block";
 import "./Block.css";
 
 interface BlockProps {
@@ -12,7 +12,7 @@ interface BlockProps {
     isEditing: boolean;
 }
 
-function Task({ block, deleteBlock, isEditing }: BlockProps) {
+function Block({ block, deleteBlock, isEditing }: BlockProps) {
     const [isEditingBlock, setIsEditingBlock] = useState<boolean>(false);
     const [time, setTime] = useState<number>(block.time);
     const [target, setTarget] = useState<number>(block.target);
@@ -70,7 +70,7 @@ function Task({ block, deleteBlock, isEditing }: BlockProps) {
     };
 
     const handleSaveDescription = (newDescription: string) => {
-        updateDescription(block.id, { ...block, description: newDescription })
+        updateDescription(block.id, newDescription)
             .then(() => {
                 setDescription(newDescription);
             }).catch((error) => {
@@ -108,4 +108,4 @@ function Task({ block, deleteBlock, isEditing }: BlockProps) {
     )
 }
 
-export default Task;
+export default Block;

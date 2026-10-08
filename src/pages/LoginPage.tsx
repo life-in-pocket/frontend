@@ -1,10 +1,17 @@
 import { login } from "../api/auth";
 import AuthForm from "../features/auth/AuthForm";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import { setToken } from "../api/tokenStorage"
 
-function Fields({email, password, setEmail, setPassword}) {
+interface FieldsProps {
+  email: string;
+  password: string;
+  setEmail: (email: string) => void;
+  setPassword: (password: string) => void;
+}
+
+function Fields({email, password, setEmail, setPassword}: FieldsProps) {
   return (  
     <>
       <input 
@@ -39,12 +46,12 @@ function Footer() {
 
 function LoginPage() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("")
+  const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     login({email, password})
