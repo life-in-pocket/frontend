@@ -1,7 +1,7 @@
 import "./authForm.css";
 import loginImg from "../../assets/images/loginImg.jpg";
 
-function AuthForm({ onSubmit, error, fields, submitLabel, footer }) {
+function AuthForm({ onSubmit, error, fields, submitLabel, footer }: { onSubmit: (event: React.FormEvent<HTMLFormElement>) => void; error?: string; fields: React.ReactNode; submitLabel: string; footer: React.ReactNode }) {
   return (
     <div className="auth-form">
       <img className="auth-form__img" src={loginImg} alt="Logo" />

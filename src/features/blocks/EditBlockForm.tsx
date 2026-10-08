@@ -14,9 +14,9 @@ interface EditBlockFormProps {
 
 function EditBlockForm({ onClose, onDelete, onSave, initialTitle, initialTime, initialTarget }: EditBlockFormProps) {
 
-    const [title, setTitle] = useState(initialTitle);
-    const [time, setTime] = useState(initialTime);
-    const [target, setTarget] = useState(initialTarget);
+    const [title, setTitle] = useState<string>(initialTitle);
+    const [time, setTime] = useState<number>(initialTime);
+    const [target, setTarget] = useState<number>(initialTarget);
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
     const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => setTime(event.target.valueAsNumber);

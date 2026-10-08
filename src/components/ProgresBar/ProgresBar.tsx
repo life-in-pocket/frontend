@@ -1,6 +1,6 @@
 import "./ProgresBar.css"
 
-function ProgresBar({currentTime, targetTime}) {
+function ProgresBar({currentTime, targetTime}: {currentTime: number, targetTime: number}) {
     const progress = (currentTime / targetTime) * 100;
 
     return (

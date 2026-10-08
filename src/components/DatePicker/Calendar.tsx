@@ -1,17 +1,17 @@
 import "./Calendar.css";
-import { useState } from "react"
+import { useState } from "react";
 
-function Calendar({sellectedDate, onClose}) {
+function Calendar({ selectedDate, onClose }: { selectedDate: Date; onClose: (date: Date) => void }) {
 
-    const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    const mounths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const mounths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    const [newDate, setNewDate] = useState(sellectedDate);
+    const [newDate, setNewDate] = useState<Date>(selectedDate);
 
     const year = newDate.getFullYear();
     const month = newDate.getMonth();
 
-    const changeDay = (day) => {
+    const changeDay = (day: number) => {
         setNewDate(new Date(year, month, day));
     }
 
@@ -84,7 +84,7 @@ function Calendar({sellectedDate, onClose}) {
         return days;
     };
 
-    const closeCalendar = (event) => {
+    const closeCalendar = (event: React.MouseEvent<SVGSVGElement>) => {
         event.stopPropagation();
         onClose(newDate);
     }
@@ -105,7 +105,7 @@ function Calendar({sellectedDate, onClose}) {
                     </div>
 
                     <div className="calendar-close">
-                        <svg onClick={(event) => closeCalendar(event)} className="calendar-close-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg onClick={(event: React.MouseEvent<SVGSVGElement>) => closeCalendar(event)} className="calendar-close-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
@@ -129,4 +129,5 @@ function Calendar({sellectedDate, onClose}) {
     )
 }
 
-export default Calendar
+export default Calendar;
+
