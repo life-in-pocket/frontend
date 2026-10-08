@@ -1,5 +1,6 @@
 import request from "./client";
 import type { Task, StatisticBlock } from "../types/block";
+import type { User } from "../types/user";
 
 interface ApiTask {
     id: number;
@@ -83,6 +84,9 @@ export const updateTime = async (id: number, time: number): Promise<Task> => {
 
 export const deleteTask = (id: number): Promise<void> =>
     request<void>(`/days/${id}`, { method: "DELETE" });
+
+export const getUser = (): Promise<User> =>
+    request<User>("/days/user");
 
 export const getStatistic = (firstDate: string, lastDate: string): Promise<StatisticBlock[]> =>
     request<StatisticBlock[]>(`/days/statistic?first_date=${firstDate}&last_date=${lastDate}`);

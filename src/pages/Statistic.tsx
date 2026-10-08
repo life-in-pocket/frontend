@@ -42,7 +42,7 @@ function Statistic() {
     }
 
     return (
-        <>
+        <div className="app">
             <Sidebar />
             <div className="statistic">
                 <div className="statistic-header">
@@ -57,7 +57,7 @@ function Statistic() {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
