@@ -1,5 +1,5 @@
 import request from "./client";
-import type { Task, StatisticBlock } from "../types/block";
+import type { Task, StatisticBlock, CircleBlock } from "../types/block";
 import type { User } from "../types/user";
 
 interface ApiTask {
@@ -90,3 +90,6 @@ export const getUser = (): Promise<User> =>
 
 export const getStatistic = (firstDate: string, lastDate: string): Promise<StatisticBlock[]> =>
     request<StatisticBlock[]>(`/days/statistic?first_date=${firstDate}&last_date=${lastDate}`);
+
+export const getCircleChart = (firstDate: string, lastDate: string): Promise<CircleBlock[]> =>
+    request<CircleBlock[]>(`/days/circle-statistic?first_date=${firstDate}&last_date=${lastDate}`)

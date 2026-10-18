@@ -1,11 +1,13 @@
-import React, {useState, useEffect, useRef} from "react"
 import WeekPicker from "../components/DatePicker/WeekPicker";
 import BlockStatistic from "../features/statisticBlocks/BlockStatistic";
-import { getStatistic } from "../api/tasks";
-import { fillWeek } from "../utils/fillWeek";
-import { StatisticBlock } from "../types/block";
+import TypeOfDatePicker, { PickerType } from "../components/TypeOfDatePicker/TypeOfDatePicker";
 import Sidebar from "../features/sidebar/Sidebar";
+import {useState, useEffect, useRef} from "react"
+import { getStatistic, getCircleChart } from "../api/tasks";
+import { fillWeek } from "../utils/fillWeek";
+import { StatisticBlock, CircleBlock } from "../types/block";
 import "./Statistic.css"
+import CircleChart from "../features/statisticBlocks/CircleChart";
 
 
 function formatDate(date: Date) : string {
@@ -17,19 +19,35 @@ function formatDate(date: Date) : string {
 
 function Statistic() {
     const [statisticBlocks, setStatisticBlocks] = useState<StatisticBlock[]>([]);
+    const [statisticCircleChart, setStatisticCircleChart] = useState<CircleBlock[]>([]);
     const [firstDate, setFirstDate] = useState<string | null>(null);
     const [lastDate, setLastDate] = useState<string | null>(null);
     const firstDateRef = useRef<string | null>(null);
     const lastDateRef = useRef<string | null>(null);
 
+    const [pickerType, setPickerType] = useState<PickerType>("week");
+
     useEffect(() => {
         if (firstDate === null || lastDate === null) return;
+
         let cancelled = false;
-        getStatistic(firstDate, lastDate).then((statistic) => {
+
+        getStatistic(firstDate, lastDate)
+            .then((statistic) => {
             if (!cancelled) setStatisticBlocks(statistic);
-        });
-        return () => { cancelled = true; };
-    }, [firstDate, lastDate]);
+            })
+            .catch((err) => console.error("getStatistic failed", err));
+
+        getCircleChart(firstDate, lastDate)
+            .then((statistic) => {
+            if (!cancelled) setStatisticCircleChart(statistic);
+            })
+            .catch((err) => console.error("getCircleChart failed", err));
+
+        return () => {
+            cancelled = true;
+        };
+    }, [firstDate, lastDate, pickerType]);
 
     
     const handleDateChange = (FirstDate: Date, LastDate: Date) => {
@@ -46,15 +64,19 @@ function Statistic() {
             <Sidebar />
             <div className="statistic">
                 <div className="statistic-header">
-                    <WeekPicker onSave={handleDateChange} />
+                    <TypeOfDatePicker value={pickerType} onChange={setPickerType}/>
+                    <WeekPicker type={pickerType} onSave={handleDateChange} />
                 </div>
-                {statisticBlocks.length === 0 && <p className="statistic-empty">No statistics available for the selected week.</p>}
+                {statisticBlocks.length === 0 && <p className="statistic-empty">No statistics available for the selected date.</p>}
                 <div className="statistic-content">
                     {statisticBlocks.length > 0 && (
                         statisticBlocks.map((block) => (
                             <BlockStatistic key={block.title} title={block.title} data={fillWeek(block.records, firstDateRef.current as string, lastDateRef.current as string)} />
                         ))
                     )}
+                </div>
+                <div className="statistic__circle-chart">
+                    {statisticBlocks.length != 0 && <CircleChart isAnimationActive={true} data={statisticCircleChart}/>}                
                 </div>
             </div>
         </div>
