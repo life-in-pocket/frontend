@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./DatePicker.css";
 import Calendar from "./Calendar";
+import { PickerType } from "../TypeOfDatePicker/TypeOfDatePicker";
 
 function formatDate(date: Date): string {
   const year = date.getFullYear();
@@ -9,63 +10,89 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-interface WeekPickerProps {
+function getBounds(type: PickerType, date: Date): [Date, Date] {
+  switch (type) {
+    case "week": {
+      const day = (date.getDay() + 6) % 7; // Понеділок як перший день
+      const start = new Date(date.getFullYear(), date.getMonth(), date.getDate() - day);
+      const end = new Date(date.getFullYear(), date.getMonth(), date.getDate() - day + 6);
+      return [start, end];
+    }
+    case "month": {
+      const start = new Date(date.getFullYear(), date.getMonth(), 1);
+      const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      return [start, end];
+    }
+    case "year": {
+      const start = new Date(date.getFullYear(), 0, 1);
+      const end = new Date(date.getFullYear(), 11, 31);
+      return [start, end];
+    }
+  }
+}
+
+function formatPeriodLabel(type: PickerType, start: Date, end: Date): string {
+  switch (type) {
+    case "week":
+      return `${formatDate(start)} — ${formatDate(end)}`;
+    case "month":
+      return start.toLocaleDateString("uk-UA", { month: "long", year: "numeric" });
+    case "year":
+      return `${start.getFullYear()}`;
+  }
+}
+
+interface DateRangePickerProps {
+  type: PickerType;
   onSave: (startDate: Date, endDate: Date) => void;
 }
 
-function WeekPicker({ onSave }: WeekPickerProps) {
-  const [firstDate, setFirstDate] = useState<Date>(new Date());
-  const [lastDate, setLastDate] = useState<Date>(new Date());
-  const [currentDate, setCurrentDate] = useState<Date>(new Date());
+export default function DateRangePicker({ type, onSave }: DateRangePickerProps) {
+  const [currentDate, setCurrentDate] = useState<Date>(() => new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
-  const calculateWeekBounds = (targetDate: Date) => {
-    const d = new Date(targetDate);
-    const day = d.getDay();
-    const diffToMonday = day === 0 ? -6 : 1 - day;
+  const [startDate, endDate] = useMemo(
+    () => getBounds(type, currentDate),
+    [type, currentDate]
+  );
 
-    const monday = new Date(d);
-    monday.setDate(d.getDate() + diffToMonday);
-
-    const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6);
-
-    setFirstDate(monday);
-    setLastDate(sunday);
-    onSave(monday, sunday);
-  };
+  const dateToShow = useMemo(
+    () => formatPeriodLabel(type, startDate, endDate),
+    [type, startDate, endDate]
+  );
 
   useEffect(() => {
-    calculateWeekBounds(currentDate);
-  }, []);
+    onSave(startDate, endDate);
+  }, [startDate, endDate, onSave]);
 
-  const toggleCalendar = () => {
-    setIsCalendarOpen((prev) => !prev);
+  const shiftPeriod = (direction: -1 | 1) => {
+    setCurrentDate((prev) => {
+      const next = new Date(prev);
+      switch (type) {
+        case "week":
+          next.setDate(next.getDate() + direction * 7);
+          break;
+        case "month":
+          next.setMonth(next.getMonth() + direction);
+          break;
+        case "year":
+          next.setFullYear(next.getFullYear() + direction);
+          break;
+      }
+      return next;
+    });
   };
 
   const handleDateChange = (date: Date) => {
     setCurrentDate(date);
-    calculateWeekBounds(date);
     setIsCalendarOpen(false);
-  };
-
-  const shiftWeek = (daysOffset: number) => {
-    const newFirstDate = new Date(firstDate);
-    newFirstDate.setDate(newFirstDate.getDate() + daysOffset);
-
-    const newLastDate = new Date(lastDate);
-    newLastDate.setDate(newLastDate.getDate() + daysOffset);
-
-    setFirstDate(newFirstDate);
-    setLastDate(newLastDate);
-    onSave(newFirstDate, newLastDate);
   };
 
   return (
     <>
       <div className="time-picker">
         <svg
-          onClick={() => shiftWeek(-7)}
+          onClick={() => shiftPeriod(-1)}
           className="time-picker-arrow"
           width="24"
           height="24"
@@ -81,13 +108,11 @@ function WeekPicker({ onSave }: WeekPickerProps) {
             strokeLinejoin="round"
           />
         </svg>
-
-        <span onClick={toggleCalendar} className="time-picker-clock">
-          {formatDate(firstDate)} — {formatDate(lastDate)}
+        <span onClick={() => setIsCalendarOpen((prev) => !prev)} className="time-picker-clock">
+          {dateToShow}
         </span>
-
         <svg
-          onClick={() => shiftWeek(7)}
+          onClick={() => shiftPeriod(1)}
           className="time-picker-arrow"
           width="24"
           height="24"
@@ -104,7 +129,6 @@ function WeekPicker({ onSave }: WeekPickerProps) {
           />
         </svg>
       </div>
-
       {isCalendarOpen && (
         <Calendar
           selectedDate={currentDate}
@@ -115,4 +139,3 @@ function WeekPicker({ onSave }: WeekPickerProps) {
   );
 }
 
-export default WeekPicker;

@@ -13,3 +13,8 @@ export interface StatisticBlock {
     title: string;
     records: { date: string; time: number }[];
 }
+
+export interface CircleBlock {
+  name: string;
+  uv: number
+}
