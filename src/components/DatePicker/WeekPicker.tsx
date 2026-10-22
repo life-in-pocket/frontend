@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import "./DatePicker.css";
 import Calendar from "./Calendar";
 import { PickerType } from "../TypeOfDatePicker/TypeOfDatePicker";
 

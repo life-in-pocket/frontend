@@ -61,25 +61,25 @@
         };
 
         return (
-            <div className="grid grid-cols-[22rem_1fr] min-h-screen">
+            <div className="grid grid-cols-[18rem_1fr] min-h-screen">
                 <Sidebar />
-                <main className="grid grid-cols-1 grid-rows-[15rem_1fr] min-h-screen">
-                    <header className="relative flex justify-center items-center text-[1.8rem] font-semibold">
+                <main className="grid grid-cols-1 grid-rows-[9rem_1fr] min-h-screen">
+                    <header className="relative flex justify-center items-center text-[1.2rem] font-semibold pl-18">
                         <DatePicker onSave={handleDateChange} />
                         <button
                             type="button"
                             onClick={() => setIsEditing((prev) => !prev)}
-                            className={`absolute top-8 right-8 p-2 rounded-lg transition-colors cursor-pointer hover:text-blue-600 ${
+                            className={`absolute top-2 right-2 p-2 rounded-lg transition-colors cursor-pointer hover:text-blue-600 ${
                                 isEditing 
                                     ? "text-gray-500" 
                                     : "text-gray-100 "
                             }`}
-                            aria-label="Редагувати блоки"
+                            aria-label="Edit block"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
+                                width="32"
+                                height="32"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -93,7 +93,7 @@
                         </button>
                     </header>
 
-                    <section className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max items-start">
+                    <section className="px-15 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-6 auto-rows-55 items-start">
                         {blocks.map((block) => (
                             <Block
                                 key={block.id}

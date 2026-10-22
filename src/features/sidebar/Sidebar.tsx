@@ -24,11 +24,11 @@ function Sidebar() {
     };
 
     return (
-        <aside className="sticky top-0 flex h-screen w-full flex-col gap-4 bg-(--bg-sidebar) px-20 py-12 text-[3rem] text-white">
-            <h1 className="pb-16 font-bold">Pocket</h1>
+        <aside className="sticky top-0 flex h-screen w-full flex-col bg-sidebar p-7 text-white">
+            <h1 className="pb-10 font-bold text-[3rem]">Pocket</h1>
 
-            <nav aria-label="Головна навігація">
-                <ul className="flex flex-col gap-4">
+            <nav aria-label="General nav">
+                <ul className="flex flex-col text-[2rem]">
                     <li>
                         <NavLink to="/pocket" className={navLinkClass}>
                             Tasks
@@ -47,7 +47,7 @@ function Sidebar() {
                 </ul>
             </nav>
 
-            <div className="mt-auto flex items-center justify-between gap-4 text-[2rem]">
+            <div className="mt-auto flex items-center justify-between text-[1.6rem]">
                 <div className="flex min-w-0 items-center gap-4">
                     <svg
                         aria-hidden="true"

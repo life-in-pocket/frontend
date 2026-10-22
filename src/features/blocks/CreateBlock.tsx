@@ -1,32 +1,38 @@
 import { useState } from "react";
-import "./CreateBlock.css"
 import CreateBlockForm from "./CreateBlockForm";
 
-function CreateBlock({ onSave, isEditing }: { onSave: (title: string, time: number, target: number) => void; isEditing: boolean }) {
+interface CreateBlockProps {
+    onSave: (title: string, time: number, target: number) => void;
+    isEditing: boolean;
+}
 
-const [isFormOPen, setIsFormOpen] = useState(false);
-    
+function CreateBlock({ onSave, isEditing }: CreateBlockProps) {
+    const [isFormOpen, setIsFormOpen] = useState(false);
+
     return (
         <>
-            {isFormOPen && <CreateBlockForm 
-                onCreate={onSave}
-                onClose={() => {setIsFormOpen(false)}} 
-                title={"New Block"} 
-                time={1} 
-                target={2} 
-            />}
+            {isFormOpen && (
+                <CreateBlockForm
+                    onCreate={onSave}
+                    onClose={() => setIsFormOpen(false)}
+                    title="New Block"
+                    time={1}
+                    target={2}
+                />
+            )}
 
-            <div className="create-blok-card" 
-            style={{ display: isEditing ? 'flex' : 'none' }}
-                onClick={() => {
-                    setIsFormOpen(true);
-                }
-            }>
-                <svg className="create-blok-card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 1V23M1 12H23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <button
+                type="button"
+                onClick={() => setIsFormOpen(true)}
+                aria-label="Add Block"
+                className={`${
+                    isEditing ? "flex" : "hidden"
+                } relative isolate flex-col items-center justify-center gap-3 h-full rounded-2xl p-4 cursor-pointer before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] before:bg-primary/20 before:content-[''] hover:before:opacity-40`}
+            >
+                <svg aria-hidden="true" focusable="false" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 1V23M1 12H23" />
                 </svg>
-
-            </div>
+            </button>
         </>
     );
 }
