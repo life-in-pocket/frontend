@@ -1,7 +1,6 @@
-import "./EditBlockForm.css"
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
-import BlockForm from "../../components/BlockForm/BlockForm";
-import React, { useState } from "react";
+import BlockForm, { FormInputClass, FormContainerClass } from "../../components/BlockForm/BlockForm";
+import { useState } from "react";
 
 interface EditBlockFormProps {
     onClose: () => void;
@@ -13,64 +12,76 @@ interface EditBlockFormProps {
 }
 
 function EditBlockForm({ onClose, onDelete, onSave, initialTitle, initialTime, initialTarget }: EditBlockFormProps) {
+    const [title, setTitle] = useState(initialTitle);
+    const [time, setTime] = useState(initialTime);
+    const [target, setTarget] = useState(initialTarget);
 
-    const [title, setTitle] = useState<string>(initialTitle);
-    const [time, setTime] = useState<number>(initialTime);
-    const [target, setTarget] = useState<number>(initialTarget);
-
-    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-    const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => setTime(event.target.valueAsNumber);
-    const handleTargetChange = (event: React.ChangeEvent<HTMLInputElement>) => setTarget(event.target.valueAsNumber);  
+    const parseNumber = (value: string, fallback: number) => {
+        const parsed = Number.parseFloat(value);
+        return Number.isNaN(parsed) ? fallback : parsed;
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        onSave({ title, time, target });
+        onSave({ title: title.trim(), time, target });
         onClose();
-    }
+    };
 
     return (
-        <BlockForm onClose={onClose} onSubmit={handleSubmit} onDelete={onDelete} title="Edit Block" buttons={true} buttonName="Delete" >
-            <div className="form-container block-title-container">
+        <BlockForm
+            onClose={onClose}
+            onSubmit={handleSubmit}
+            onDelete={onDelete}
+            title="Edit block"
+            buttons
+            buttonName="delete"
+        >
+            <div className={FormContainerClass}>
                 <label htmlFor="block-title">Title:</label>
-                <input className="form-input" 
-                    type="text" 
-                    id="block-title" 
-                    name="block-title" 
-                    defaultValue={title}
-                    onChange={handleTitleChange} />
-                </div>
-                    
-            <div className="form-container block-time-container">
-                <label htmlFor="block-time">Time (hours):</label>
-                <input className="form-input" 
-                    type="number" 
-                    id="block-time" 
-                    name="block-time"
-                    defaultValue={time} 
-                    step="0.5" 
-                    min="0" 
-                    max="24"
-                    onChange={handleTimeChange} />
+                <input
+                    className={FormInputClass}
+                    type="text"
+                    id="block-title"
+                    name="block-title"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
+                    required
+                />
             </div>
 
-            <div className="form-container block-target-container">
+            <div className={FormContainerClass}>
+                <label htmlFor="block-time">Time:</label>
+                <input
+                    className={FormInputClass}
+                    type="number"
+                    id="block-time"
+                    name="block-time"
+                    value={time}
+                    step="0.5"
+                    min="0"
+                    max="24"
+                    onChange={(event) => setTime(parseNumber(event.target.value, time))}
+                />
+            </div>
+
+            <div className={FormContainerClass}>
                 <label htmlFor="block-target">Target:</label>
-                <input 
-                    className="form-input" 
-                    type="number" 
-                    id="block-target" 
-                    name="block-target" 
-                    defaultValue={target} 
-                    step="0.5" 
-                    min="0" 
-                    max="24" 
-                    onChange={handleTargetChange}/>
+                <input
+                    className={FormInputClass}
+                    type="number"
+                    id="block-target"
+                    name="block-target"
+                    value={target}
+                    step="0.5"
+                    min="0"
+                    max="24"
+                    onChange={(event) => setTarget(parseNumber(event.target.value, target))}
+                />
             </div>
 
             <ProgresBar currentTime={time} targetTime={target} />
-
         </BlockForm>
-    )
+    );
 }
 
-export default EditBlockForm
+export default EditBlockForm;

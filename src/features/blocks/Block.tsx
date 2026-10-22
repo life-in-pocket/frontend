@@ -19,7 +19,8 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
     const [description, setDescription] = useState(block.description ?? "");
     const [isTimeUpdating, setIsTimeUpdating] = useState(false);
 
-    const changeTime = (delta: number) => {
+    const changeTime = (delta: number, event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
         if (isTimeUpdating) return;
         const newTime = time + delta;
         if (newTime < 0) return;
@@ -52,18 +53,18 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
     return (
         <article
             className="relative isolate flex flex-col gap-3 rounded-2xl border-4 border-accent p-4 before:absolute before:inset-0 before:-z-10 before:rounded-xl before:bg-accent before:opacity-40 before:content-['']"
+            onClick={() => openEditor()}
         >
-            <h3 className="text-[2rem] font-semibold">
-                <button type="button" onClick={openEditor} className="text-left">
-                    {title}
-                </button>
-            </h3>
+            <h3 className="text-[2rem] font-semibold">{title}</h3>
 
             <div className="flex items-center justify-center gap-10">
                 {!isEditing && (
                     <button
                         type="button"
-                        onClick={() => changeTime(-0.5)}
+                        onClick={(event) => {
+                            changeTime(-0.5, event)
+                            closeEditor()
+                        }}
                         disabled={isTimeUpdating}
                         aria-label="Decrise time"
                         className="cursor-pointer"
@@ -79,8 +80,10 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
                 {!isEditing && (
                     <button
                         type="button"
-                        onClick={() => changeTime(0.5)}
-                        disabled={isTimeUpdating}
+                        onClick={(event) => {
+                            changeTime(0.5, event)
+                            closeEditor()
+                        }}                        disabled={isTimeUpdating}
                         aria-label="Increase time"
                         className="cursor-pointer"
                     >
