@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { register } from "../api/auth";
-import AuthForm from "../features/auth/AuthForm";
+import AuthForm, {AuthInputClass} from "../features/auth/AuthForm";
 import { Link, useNavigate } from "react-router-dom";
 
 interface FieldsProps {
@@ -19,7 +19,7 @@ function Fields({ username, setUsername, email, setEmail, password, setPassword,
     <>
       <input 
         name="username" 
-        className="auth-form__controls" 
+        className={AuthInputClass} 
         type="text" 
         value={username}
         onChange={(event) => setUsername(event.target.value)}
@@ -28,7 +28,7 @@ function Fields({ username, setUsername, email, setEmail, password, setPassword,
       />
       <input 
         name="email" 
-        className="auth-form__controls" 
+        className={AuthInputClass}
         type="email" 
         value={email}
         onChange={(event) => setEmail(event.target.value)}
@@ -37,7 +37,7 @@ function Fields({ username, setUsername, email, setEmail, password, setPassword,
       />
       <input 
         name="password" 
-        className="auth-form__controls" 
+        className={AuthInputClass}
         type="password" 
         value={password}
         onChange={(event) => setPassword(event.target.value)}
@@ -46,7 +46,7 @@ function Fields({ username, setUsername, email, setEmail, password, setPassword,
       />
       <input 
         name="confirmPassword" 
-        className="auth-form__controls" 
+        className={AuthInputClass}
         type="password" 
         value={passwordConfirm}
         onChange={(event) => setPasswordConfirm(event.target.value)}

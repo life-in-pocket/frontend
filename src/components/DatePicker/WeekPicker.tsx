@@ -12,7 +12,7 @@ function formatDate(date: Date): string {
 function getBounds(type: PickerType, date: Date): [Date, Date] {
   switch (type) {
     case "week": {
-      const day = (date.getDay() + 6) % 7; // Понеділок як перший день
+      const day = (date.getDay() + 6) % 7;
       const start = new Date(date.getFullYear(), date.getMonth(), date.getDate() - day);
       const end = new Date(date.getFullYear(), date.getMonth(), date.getDate() - day + 6);
       return [start, end];
@@ -89,10 +89,10 @@ export default function DateRangePicker({ type, onSave }: DateRangePickerProps) 
 
   return (
     <>
-      <div className="time-picker">
+      <div className="inline-flex justify-center items-center gap-1 p-2 rounded-3xl bg-second-accent">
         <svg
           onClick={() => shiftPeriod(-1)}
-          className="time-picker-arrow"
+          className="cursor-pointer"
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -107,12 +107,12 @@ export default function DateRangePicker({ type, onSave }: DateRangePickerProps) 
             strokeLinejoin="round"
           />
         </svg>
-        <span onClick={() => setIsCalendarOpen((prev) => !prev)} className="time-picker-clock">
+        <span onClick={() => setIsCalendarOpen((prev) => !prev)} className="cursor-pointer font-semibold">
           {dateToShow}
         </span>
         <svg
           onClick={() => shiftPeriod(1)}
-          className="time-picker-arrow"
+          className="cursor-pointer"
           width="24"
           height="24"
           viewBox="0 0 24 24"

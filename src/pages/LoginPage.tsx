@@ -1,8 +1,9 @@
 import { login } from "../api/auth";
-import AuthForm from "../features/auth/AuthForm";
+import AuthForm, { AuthInputClass } from "../features/auth/AuthForm";
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { setToken } from "../api/tokenStorage"
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { setToken } from "../api/tokenStorage";
 
 interface FieldsProps {
   email: string;
@@ -14,23 +15,27 @@ interface FieldsProps {
 function Fields({email, password, setEmail, setPassword}: FieldsProps) {
   return (  
     <>
-      <input 
-        name="email" 
-        className="auth-form__controls" 
+      <input
+        name="email"
         type="email"
+        className={AuthInputClass}
+        autoComplete="email"
+        aria-label="Email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="Email" 
-        required 
+        placeholder="Email"
+        required
       />
-      <input 
-        name="password" 
-        className="auth-form__controls" 
+      <input
+        name="password"
         type="password"
+        className={AuthInputClass}
+        autoComplete="current-password"
+        aria-label="Password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        placeholder="Password" 
-        required 
+        placeholder="Password"
+        required
       />
     </>
   );

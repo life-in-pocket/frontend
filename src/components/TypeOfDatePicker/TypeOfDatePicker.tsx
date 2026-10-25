@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import "./TypeOfDatePicker.css";
 
 export type PickerType = "week" | "month" | "year";
 
@@ -30,11 +29,14 @@ function TypeOfDatePicker({ value, onChange }: TypeOfDatePickerProps) {
   }, [value]);
 
   return (
-    <div className="type-picker" role="tablist">
+    <div
+      role="tablist"
+      className="relative isolate flex items-center justify-center gap-8 px-4 py-2 text-[2rem]"
+    >
       <span
-        className="type-picker__indicator"
-        style={{ transform: `translateX(${indicator.left}px)`, width: indicator.width }}
         aria-hidden="true"
+        className="absolute top-2 bottom-2 left-0 -z-10 transition-[transform,width] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
+        style={{ transform: `translateX(${indicator.left}px)`, width: indicator.width }}
       />
 
       {OPTIONS.map(({ value: optValue, label }) => {
@@ -48,8 +50,10 @@ function TypeOfDatePicker({ value, onChange }: TypeOfDatePickerProps) {
             type="button"
             role="tab"
             aria-selected={isActive}
-            className={`type-picker__type ${isActive ? "type-picker__type--active" : ""}`}
             onClick={() => onChange(optValue)}
+            className={`relative cursor-pointer border-none bg-transparent px-5 py-4 transition-[color,opacity] duration-[250ms] ease-in hover:text-second-accent-hover hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-second-accent motion-reduce:transition-none ${
+              isActive ? "text-second-accent opacity-100" : ""
+            }`}
           >
             {label}
           </button>

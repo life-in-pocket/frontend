@@ -1,8 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
 import { useState } from 'react';
-import './BlockStatistic.css';
-
+  
 interface BlockStatisticProps {
   title?: string;
   data: { date: string; time: number }[];
@@ -11,8 +10,8 @@ interface BlockStatisticProps {
 function BlockStatistic({ title = 'New Block Statistics', data }: BlockStatisticProps) {
 
   return (
-    <div className="statistic-block">
-      <h2 className="statistic-block__title">{title}</h2>
+    <div>
+      <h2 className="text-center text-[2rem] font-semibold">{title}</h2>
       <BarChart
           width={500}
           height={300}
