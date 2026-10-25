@@ -1,6 +1,5 @@
-import "./BlockNote.css"
-import React, { useState } from "react"
-import BlockForm from "../../components/BlockForm/BlockForm"
+import React, { useState } from "react";
+import BlockForm from "../../components/BlockForm/BlockForm";
 
 interface BlockNoteProps {
     onClose: () => void;
@@ -12,26 +11,35 @@ interface BlockNoteProps {
 }
 
 function BlockNote({ onClose, onSave, block }: BlockNoteProps) {
-
     const [description, setDescription] = useState(block.description);
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        onSave(description);
+        onClose();
+    };
+
     return (
-        <BlockForm 
-            onClose={onClose} 
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-                onSave(description);
-            }} 
-            title={`Note for ${block.title}`} 
-            buttons={true} 
+        <BlockForm
+            onClose={onClose}
+            onSubmit={handleSubmit}
+            title={`Note for ${block.title}`}
+            buttons
             buttonName="Close"
-            >
-            <textarea 
-                className="note-text"
+        >
+            <label htmlFor="block-note" className="sr-only">
+                Note
+            </label>
+            <textarea
+                id="block-note"
+                name="block-note"
                 value={description}
-                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value)} placeholder="Write your note...">
-            </textarea>
+                onChange={(event) => setDescription(event.target.value)}
+                placeholder="Write note..."
+                className="h-90 w-full resize-none p-2 text-xl outline-none focus:border-second-accent focus:shadow-[0_0_5px_var(--second-accent-color)]"
+            />
         </BlockForm>
-    )
+    );
 }
 
-export default BlockNote
+export default BlockNote;

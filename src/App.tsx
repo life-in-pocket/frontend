@@ -4,7 +4,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Modal from './pages/Modal';
 import Statistic from "./pages/Statistic";
-import './assets/css/App.css';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }): React.ReactNode {
   const token = getToken();

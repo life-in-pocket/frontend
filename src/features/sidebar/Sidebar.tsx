@@ -1,53 +1,94 @@
-import { getUser } from '../../api/tasks';
-import { deleteToken } from '../../api/tokenStorage'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import './Sidebar.css';
+import { getUser } from '../../api/tasks';
+import { deleteToken } from '../../api/tokenStorage';
+
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `cursor-pointer transition-colors hover:text-(--second-accent-color) ${
+        isActive ? 'text-(--second-accent-color)' : ''
+    }`;
 
 function Sidebar() {
-
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         getUser()
-            .then(user => setUsername(user.username))
-            .catch((err) => {console.error(err)})
-    }, [])
+            .then((user) => setUsername(user.username))
+            .catch((err) => console.error(err));
+    }, []);
 
-    const exitAccount = () => {
+    const handleLogout = () => {
         deleteToken();
-        navigate("/login");
-    }
+        navigate('/login', { replace: true });
+    };
 
     return (
-        <div className="sidebar">
-            <h1 className="sidebar-title">Pocket</h1>
-            <ul className="sidebar-list">
-                <li className="sidebar-item" onClick={() => navigate("/pocket")}>
-                    Tasks
-                </li>
-                <li className="sidebar-item" onClick={() => navigate("/statistics")}>
-                    Statistics
-                </li>
-                <li className="sidebar-item">Media</li>
-            </ul>
+        <aside className="sticky top-0 flex h-screen w-full flex-col bg-sidebar p-7 text-white">
+            <h1 className="pb-10 font-bold text-[3rem]">Pocket</h1>
 
-            <div className="sidebar-account">
-                <svg className="img-user-logo" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                </svg>
-                <span className="username">{username}</span>
-                <a onClick={exitAccount} className="exit-account">
-                    <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <nav aria-label="General nav">
+                <ul className="flex flex-col text-[2rem]">
+                    <li>
+                        <NavLink to="/pocket" className={navLinkClass}>
+                            Tasks
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/statistics" className={navLinkClass}>
+                            Statistics
+                        </NavLink>
+                    </li>
+                    <li>
+                        <span aria-disabled="true" className="cursor-not-allowed opacity-50">
+                            Media
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div className="mt-auto flex items-center justify-between text-[1.6rem]">
+                <div className="flex min-w-0 items-center gap-4">
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        className="size-10 shrink-0 rounded-full bg-(--dark)"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                    </svg>
+                    <span className="truncate">{username}</span>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={handleLogout}
+                    aria-label="Вийти з акаунта"
+                    title="Вийти"
+                    className="shrink-0 cursor-pointer rounded-md transition-colors hover:text-(--second-accent-color) focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(--second-accent-color)"
+                >
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        className="size-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
-                </a>
+                </button>
             </div>
-        </div>
-    )
+        </aside>
+    );
 }
 
 export default Sidebar;

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./DatePicker.css";
+import { useState } from "react";
 import Calendar from "./Calendar";
 
 function DatePicker({ onSave }: { onSave: (date: Date) => void }) {
@@ -34,12 +33,12 @@ function DatePicker({ onSave }: { onSave: (date: Date) => void }) {
 
     return (
         <>
-            <div className="time-picker">
-                <svg onClick={dateBefore} className="time-picker-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="inline-flex justify-center items-center gap-1 p-2 rounded-3xl bg-second-accent">
+                <svg onClick={dateBefore} className="cursor-pointer" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span onClick={toggleCalendar} className="time-picker-clock">{datetime.toLocaleDateString()}</span>
-                <svg onClick={dateAfter} className="time-picker-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <span onClick={toggleCalendar} className="cursor-pointer font-semibold">{datetime.toLocaleDateString()}</span>
+                <svg onClick={dateAfter} className="cursor-pointer" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
 

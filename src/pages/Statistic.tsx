@@ -6,7 +6,6 @@ import {useState, useEffect, useRef} from "react"
 import { getStatistic, getCircleChart } from "../api/tasks";
 import { fillWeek } from "../utils/fillWeek";
 import { StatisticBlock, CircleBlock } from "../types/block";
-import "./Statistic.css"
 import CircleChart from "../features/statisticBlocks/CircleChart";
 
 
@@ -60,25 +59,25 @@ function Statistic() {
     }
 
     return (
-        <div className="app">
+        <div className="grid grid-cols-[18rem_1fr] min-h-screen">
             <Sidebar />
-            <div className="statistic">
-                <div className="statistic-header">
+            <main className="relative grid grid-cols-1 grid-rows-[12rem_1fr]">
+                <header className="flex flex-col justify-center items-center gap-8 mt-4 text-xl font-semibold">
                     <TypeOfDatePicker value={pickerType} onChange={setPickerType}/>
                     <WeekPicker type={pickerType} onSave={handleDateChange} />
-                </div>
-                {statisticBlocks.length === 0 && <p className="statistic-empty">No statistics available for the selected date.</p>}
-                <div className="statistic-content">
+                </header>
+                {statisticBlocks.length === 0 && <p className="text-center text-xl font-semibold italic">No statistics available for the selected date.</p>}
+                <div className="grid grid-cols-2 gap-4">
                     {statisticBlocks.length > 0 && (
                         statisticBlocks.map((block) => (
                             <BlockStatistic key={block.title} title={block.title} data={fillWeek(block.records, firstDateRef.current as string, lastDateRef.current as string)} />
                         ))
                     )}
                 </div>
-                <div className="statistic__circle-chart">
+                <div className="mx-auto my-0">
                     {statisticBlocks.length != 0 && <CircleChart isAnimationActive={true} data={statisticCircleChart}/>}                
                 </div>
-            </div>
+            </main>
         </div>
     )
 }
