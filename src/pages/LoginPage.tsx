@@ -74,6 +74,7 @@ function LoginPage() {
       fields={<Fields email={email} password={password} setEmail={setEmail} setPassword={setPassword}/>}
       submitLabel="Login"
       footer={<Footer />}
+      isActive={true}
     />
   );
 }

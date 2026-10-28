@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Modal from './pages/Modal';
 import Statistic from "./pages/Statistic";
+import VerifyPage from "./pages/VerifyPage";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }): React.ReactNode {
   const token = getToken();
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/pocket" replace />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/pocket" element={
           <ProtectedRoute>

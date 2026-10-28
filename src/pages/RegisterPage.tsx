@@ -84,7 +84,7 @@ function RegisterPage() {
 
       setError(null)
       register({ username, email, password })
-        .then(() => navigate("/login"))
+        .then(() => navigate("/verify-email"))
         .catch(() => setError("error in register process"))
   };
 
@@ -104,6 +104,7 @@ function RegisterPage() {
       />}
       submitLabel="Register"
       footer={<Footer />}
+      isActive={true}
     />
   );
 }
