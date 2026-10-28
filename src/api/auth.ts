@@ -17,3 +17,9 @@ export const login = (data: { email: string; password: string }): Promise<LoginR
     method: "POST",
     body: JSON.stringify(data),
   });
+
+export const verifyEmail = (token: string): Promise<void> =>
+  request("/auth/verify", {
+    method: "POST",
+    body: JSON.stringify({ token }),
+  });

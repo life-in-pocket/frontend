@@ -11,9 +11,10 @@ interface AuthFormProps {
   submitLabel: string;
   footer: ReactNode;
   isSubmitting?: boolean;
+  isActive:boolean;
 }
 
-function AuthForm({ onSubmit, error, fields, submitLabel, footer }: AuthFormProps) {
+function AuthForm({ onSubmit, error, fields, submitLabel, footer, isActive }: AuthFormProps) {
   return (
     <div className="flex h-screen">
       <img className="w-[65%] object-cover" src={loginImg} alt="Logo" />
@@ -28,12 +29,14 @@ function AuthForm({ onSubmit, error, fields, submitLabel, footer }: AuthFormProp
 
         <form className="flex w-full max-w-100 flex-col" onSubmit={onSubmit}>
           {fields}
+          {isActive &&
           <button
             type="submit"
             className="mt-15 cursor-pointer bg-second-accent p-4 text-xl hover:bg-(--second-accent-color-hover) disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitLabel}
           </button>
+          }
         </form>
 
         <div className="mt-8 text-center text-lg">{footer}</div>
