@@ -19,7 +19,7 @@ function AuthForm({ onSubmit, error, fields, submitLabel, footer, isActive }: Au
     <div className="flex h-screen">
       <img className="w-[65%] object-cover" src={loginImg} alt="Logo" />
       <main className="flex w-[35%] flex-col pl-20">
-        <h1 className="mt-30 mb-20 text-[3.5rem] font-bold">Hello in Pocket</h1>
+        <h1 className="mt-30 mb-10 text-[3.5rem] font-bold">Hello in Pocket</h1>
 
         {error && (
           <p role="alert" className="mb-8 text-center text-xl text-[rgb(220,71,71)]">
