@@ -50,6 +50,9 @@
                     setBlocks((prev) => [...prev, newBlock]);
                 })
                 .catch((error) => {
+                    if (error.status === 409) {
+                        alert("A block with this title already exists for the selected date.");
+                    }
                     console.error("Failed to create block:", error);
                 });
         };

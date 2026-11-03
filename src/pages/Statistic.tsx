@@ -62,7 +62,7 @@ function Statistic() {
         <div className="grid grid-cols-[18rem_1fr] min-h-screen">
             <Sidebar />
             <main className="relative grid grid-cols-1 grid-rows-[12rem_1fr]">
-                <header className="flex flex-col justify-center items-center gap-8 mt-4 text-xl font-semibold">
+                <header className="flex flex-col justify-center items-center mt-4 text-xl font-semibold">
                     <TypeOfDatePicker value={pickerType} onChange={setPickerType}/>
                     <WeekPicker type={pickerType} onSave={handleDateChange} />
                 </header>

@@ -18,6 +18,7 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
     const [title, setTitle] = useState(block.title);
     const [description, setDescription] = useState(block.description ?? "");
     const [isTimeUpdating, setIsTimeUpdating] = useState(false);
+    const [isActive, setIsActive] = useState(block.isActive);
 
     const changeTime = (delta: number, event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
@@ -32,10 +33,11 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
             .finally(() => setIsTimeUpdating(false));
     };
 
-    const handleSaveMethod = (updatedBlock: { title: string; time: number; target: number }) => {
+    const handleSaveMethod = (updatedBlock: { title: string; time: number; target: number, isActive: boolean }) => {
         setTitle(updatedBlock.title);
         setTime(updatedBlock.time);
         setTarget(updatedBlock.target);
+        setIsActive(updatedBlock.isActive);
         updateTask(block.id, updatedBlock).catch((error) =>
             console.error(`Failed to update block ${block.id}:`, error)
         );
@@ -105,6 +107,7 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
                     initialTitle={title}
                     initialTime={time}
                     initialTarget={target}
+                    initialIsActiveBlock={isActive}
                 />
             )}
             {!isEditing && isEditingBlock && (
