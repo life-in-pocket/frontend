@@ -1,67 +1,75 @@
-    import { useState, useEffect, useRef } from "react";
-    import CreateBlock from "../features/blocks/CreateBlock";
-    import DatePicker from "../components/DatePicker/DatePicker";
-    import Block from "../features/blocks/Block";
-    import { getTasks, createTask, deleteTask } from "../api/tasks";
-    import type { Task } from "../types/block";
-    import Sidebar from "../features/sidebar/Sidebar";
+import { useState, useEffect, useRef } from "react";
+import CreateBlock from "../features/blocks/CreateBlock";
+import DatePicker from "../components/DatePicker/DatePicker";
+import Block from "../features/blocks/Block";
+import { getTasks, createTask, deleteTask } from "../api/tasks";
+import type { Task } from "../types/block";
+import Sidebar from "../features/sidebar/Sidebar";
+import BurgerButton from "../components/BurgerButton/BurgerButton";
 
-    function formatDate(date: Date): string {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-    }
+function formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
 
-    function Modal() {
-        const [isEditing, setIsEditing] = useState(false);
-        const [blocks, setBlocks] = useState<Task[]>([]);
-        const [selectedDate, setSelectedDate] = useState(() => formatDate(new Date()));
-        const selectedDateRef = useRef(selectedDate);
+function Modal() {
+    const [isEditing, setIsEditing] = useState(false);
+    const [blocks, setBlocks] = useState<Task[]>([]);
+    const [selectedDate, setSelectedDate] = useState(() => formatDate(new Date()));
+    const selectedDateRef = useRef(selectedDate);
+    const [tasksVersion, setTasksVersion] = useState(0);
 
-        useEffect(() => {
-            let cancelled = false;
+    const refreshTasks = () => setTasksVersion((v) => v + 1);
 
-            getTasks(selectedDate)
-                .then((tasks) => {
-                    if (!cancelled) setBlocks(tasks);
-                })
-                .catch((error) => {
-                    if (!cancelled) console.error("Failed to load blocks:", error);
-                });
+    useEffect(() => {
+        let cancelled = false;
 
-            return () => {
-                cancelled = true;
-            };
-        }, [selectedDate]);
+        getTasks(selectedDate)
+            .then((tasks) => {
+                if (!cancelled) setBlocks(tasks);
+            })
+            .catch((error) => {
+                if (!cancelled) console.error("Failed to load blocks:", error);
+            });
 
-        const handleDateChange = (date: Date) => {
-            const formatted = formatDate(date);
-            selectedDateRef.current = formatted;
-            setSelectedDate(formatted);
+        return () => {
+            cancelled = true;
         };
+    }, [selectedDate, tasksVersion]);
 
-        const createNewBlock = (title: string, time: number, target: number) => {
-            const requestDate = selectedDate;
+    const handleDateChange = (date: Date) => {
+        const formatted = formatDate(date);
+        selectedDateRef.current = formatted;
+        setSelectedDate(formatted);
+    };
 
-            createTask({ title: title.trim(), time, target, date: requestDate })
-                .then((newBlock) => {
-                    if (selectedDateRef.current !== requestDate) return;
-                    setBlocks((prev) => [...prev, newBlock]);
-                })
-                .catch((error) => {
-                    if (error.status === 409) {
-                        alert("A block with this title already exists for the selected date.");
-                    }
-                    console.error("Failed to create block:", error);
-                });
-        };
+    const createNewBlock = (title: string, time: number, target: number) => {
+        createTask({ title: title.trim(), time, target, date: selectedDate })
+            .then(() => refreshTasks())
+            .catch((error) => {
+                if (error.status === 409) {
+                    alert("A block with this title already exists for the selected date.");
+                }
+                console.error("Failed to create block:", error);
+            });
+    };
 
-        const deleteBlock = (id: number) => {
-            deleteTask(id)
-                .then(() => setBlocks((prev) => prev.filter((block) => block.id !== id)))
-                .catch((error) => console.error("Failed to delete block:", error));
-        };
+    const deleteBlock = (id: number) => {
+        deleteTask(id)
+            .then(() => refreshTasks())
+            .catch((error) => console.error("Failed to delete block:", error));
+    };
+
+    const handleTaskToggled = (taskId: number, isActive: boolean) => {
+    setBlocks((prev) =>
+        prev.map((block) =>
+            block.id === taskId ? { ...block, isActive } : block
+        )
+        );
+    };
+
 
         return (
             <div className="grid grid-cols-[18rem_1fr] min-h-screen">
@@ -69,6 +77,12 @@
                 <main className="grid grid-cols-1 grid-rows-[9rem_1fr] min-h-screen">
                     <header className="relative flex justify-center items-center text-[1.2rem] font-semibold pl-18">
                         <DatePicker onSave={handleDateChange} />
+                        <BurgerButton
+                            className="absolute top-4 left-4"
+                            date={selectedDate}
+                            refreshKey={tasksVersion}
+                            onTaskToggled={refreshTasks}
+                        />                
                         <button
                             type="button"
                             onClick={() => setIsEditing((prev) => !prev)}

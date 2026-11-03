@@ -43,12 +43,18 @@ export interface UpdateBlockPayload {
     title: string;
     time: number;
     target: number;
+    isActive: boolean;
 }
 
 export const getTasks = async (date: string): Promise<Task[]> => {
     const data = await request<ApiDayTask[]>(`/days/${date}/tasks`);
     return data.map(mapBlock);
 };
+
+export const getAllTasks = async (date: string): Promise<Task[]> => {
+    const data = await request<ApiDayTask[]>(`/days/${date}/all-tasks`);
+    return data.map(mapBlock);
+}
 
 export const createTask = async (payload: CreateBlockPayload): Promise<Task> => {
     const data = await request<ApiDayTask>("/days/day-tasks", {
@@ -81,6 +87,14 @@ export const updateTime = async (id: number, time: number): Promise<Task> => {
     });
     return mapBlock(data);
 };
+
+export const updateTaskActive = async (id: number, isActive: boolean): Promise<Task> => {
+    const data = await request<ApiDayTask>(`/days/${id}/active`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: isActive }),
+    });
+    return mapBlock(data);
+}
 
 export const deleteTask = (id: number): Promise<void> =>
     request<void>(`/days/${id}`, { method: "DELETE" });

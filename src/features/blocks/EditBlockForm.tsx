@@ -1,7 +1,6 @@
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import BlockForm, { FormInputClass, FormContainerClass } from "../../components/BlockForm/BlockForm";
 import { useState } from "react";
-import Toggle from "../../components/Toggle/Toggle";
 
 interface EditBlockFormProps {
     onClose: () => void;
