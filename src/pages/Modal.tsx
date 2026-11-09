@@ -6,6 +6,20 @@ import { getTasks, createTask, deleteTask } from "../api/tasks";
 import type { Task } from "../types/block";
 import Sidebar from "../features/sidebar/Sidebar";
 import BurgerButton from "../components/BurgerButton/BurgerButton";
+import {
+    DndContext,
+    closestCenter,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    type DragEndEvent,
+} from "@dnd-kit/core";
+
+import {
+    SortableContext,
+    rectSortingStrategy,
+    arrayMove,
+} from "@dnd-kit/sortable";
 
 function formatDate(date: Date): string {
     const year = date.getFullYear();
@@ -38,6 +52,23 @@ function Modal() {
             cancelled = true;
         };
     }, [selectedDate, tasksVersion]);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: { distance: 5 },
+        })
+    );
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (!over || active.id === over.id) return;
+
+        setBlocks((prev) => {
+            const oldIndex = prev.findIndex((b) => b.id === active.id);
+            const newIndex = prev.findIndex((b) => b.id === over.id);
+            return arrayMove(prev, oldIndex, newIndex);
+        });
+    };
 
     const handleDateChange = (date: Date) => {
         const formatted = formatDate(date);
@@ -110,17 +141,23 @@ function Modal() {
                         </button>
                     </header>
 
-                    <section className="px-15 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-6 auto-rows-55 items-start">
-                        {blocks.map((block) => (
-                            <Block
-                                key={block.id}
-                                block={block}
-                                deleteBlock={() => deleteBlock(block.id)}
-                                isEditing={isEditing}
-                            />
-                        ))}
-                        <CreateBlock onSave={createNewBlock} isEditing={isEditing} />
-                    </section>
+                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext items={blocks.map((b) => b.id)} strategy={rectSortingStrategy}>
+                            <section className="px-15 grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-6 auto-rows-55 items-start">
+                                {blocks.map((block) => (
+                                    <Block
+                                        key={block.id}
+                                        block={block}
+                                        deleteBlock={() => deleteBlock(block.id)}
+                                        isEditing={isEditing}
+                                        refreshTasks={refreshTasks}
+                                    />
+                                ))}
+                                <CreateBlock onSave={createNewBlock} isEditing={isEditing} />
+                            </section>
+                        </SortableContext>
+                    </DndContext>
+
                 </main>
             </div>
         );

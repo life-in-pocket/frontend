@@ -1,11 +1,12 @@
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import BlockForm, { FormInputClass, FormContainerClass } from "../../components/BlockForm/BlockForm";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { UpdateBlockPayload } from "../../api/tasks";
 
 interface EditBlockFormProps {
     onClose: () => void;
     onDelete: () => void;
-    onSave: (updatedBlock: { title: string; time: number; target: number, isActive: boolean }) => void;
+    onSave: (updatedBlock: UpdateBlockPayload) => void;
     initialTitle: string;
     initialTime: number;
     initialTarget: number;
@@ -17,6 +18,8 @@ function EditBlockForm({ onClose, onDelete, onSave, initialTitle, initialTime, i
     const [time, setTime] = useState(initialTime);
     const [target, setTarget] = useState(initialTarget);
     const [isActiveBlock, setIsActiveBlock] = useState(initialIsActiveBlock);
+    const isActiveBlockRef = useRef(isActiveBlock);
+    isActiveBlockRef.current = isActiveBlock;
 
     const parseNumber = (value: string, fallback: number) => {
         const parsed = Number.parseFloat(value);
@@ -25,8 +28,7 @@ function EditBlockForm({ onClose, onDelete, onSave, initialTitle, initialTime, i
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        onSave({ title: title.trim(), time, target, isActive: isActiveBlock });
-        onClose();
+        onSave({ title: title.trim(), time, target, isActive: isActiveBlockRef.current });
     };
 
     return (

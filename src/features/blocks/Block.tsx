@@ -2,16 +2,20 @@ import EditBlockForm from "./EditBlockForm";
 import ProgresBar from "../../components/ProgresBar/ProgresBar";
 import BlockNote from "./BlockNote";
 import { useState } from "react";
-import { updateTime, updateTask, updateDescription } from "../../api/tasks";
+import { updateTime, updateTask, updateDescription, UpdateBlockPayload } from "../../api/tasks";
+
 import { Task } from "../../types/block";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 interface BlockProps {
     block: Task;
     deleteBlock: () => void;
     isEditing: boolean;
+    refreshTasks: () => void;
 }
 
-function Block({ block, deleteBlock, isEditing }: BlockProps) {
+function Block({ block, deleteBlock, isEditing, refreshTasks }: BlockProps) {
     const [isEditingBlock, setIsEditingBlock] = useState(false);
     const [time, setTime] = useState(block.time);
     const [target, setTarget] = useState(block.target);
@@ -19,6 +23,21 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
     const [description, setDescription] = useState(block.description ?? "");
     const [isTimeUpdating, setIsTimeUpdating] = useState(false);
     const [isActive, setIsActive] = useState(block.isActive);
+
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: block.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+    };
 
     const changeTime = (delta: number, event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
@@ -33,12 +52,17 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
             .finally(() => setIsTimeUpdating(false));
     };
 
-    const handleSaveMethod = (updatedBlock: { title: string; time: number; target: number, isActive: boolean }) => {
-        setTitle(updatedBlock.title);
-        setTime(updatedBlock.time);
-        setTarget(updatedBlock.target);
-        setIsActive(updatedBlock.isActive);
-        updateTask(block.id, updatedBlock).catch((error) =>
+    const handleSaveMethod = (updatedBlock: UpdateBlockPayload) => {
+        updateTask(block.id, updatedBlock)
+            .then(() => {
+                setTitle(updatedBlock.title);
+                setTime(updatedBlock.time);
+                setTarget(updatedBlock.target);
+                setIsActive(updatedBlock.isActive);
+                refreshTasks();
+                closeEditor();
+            })
+            .catch((error) =>
             console.error(`Failed to update block ${block.id}:`, error)
         );
     };
@@ -53,71 +77,73 @@ function Block({ block, deleteBlock, isEditing }: BlockProps) {
     const closeEditor = () => setIsEditingBlock(false);
 
     return (
-        <article
-            className="relative isolate flex flex-col gap-3 rounded-2xl border-4 border-accent p-4 before:absolute before:inset-0 before:-z-10 before:rounded-xl before:bg-accent before:opacity-40 before:content-['']"
-            onClick={() => openEditor()}
-        >
-            <h3 className="text-[2rem] font-semibold">{title}</h3>
+        <div ref={setNodeRef} style={style} {...attributes} {...(isEditing ? listeners : {})}>
+            <article
+                className="relative isolate flex flex-col gap-3 rounded-2xl border-4 border-accent p-4 before:absolute before:inset-0 before:-z-10 before:rounded-xl before:bg-accent before:opacity-40 before:content-['']"
+                onClick={() => openEditor()}
+            >
+                <h3 className="text-[2rem] font-semibold">{title}</h3>
 
-            <div className="flex items-center justify-center gap-10">
-                {!isEditing && (
-                    <button
-                        type="button"
-                        onClick={(event) => {
-                            changeTime(-0.5, event)
-                            closeEditor()
-                        }}
-                        disabled={isTimeUpdating}
-                        aria-label="Decrise time"
-                        className="cursor-pointer"
-                    >
-                        <svg aria-hidden="true" focusable="false" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M1 12H23" />
-                        </svg>
-                    </button>
+                <div className="flex items-center justify-center gap-10">
+                    {!isEditing && (
+                        <button
+                            type="button"
+                            onClick={(event) => {
+                                changeTime(-0.5, event)
+                                closeEditor()
+                            }}
+                            disabled={isTimeUpdating}
+                            aria-label="Decrise time"
+                            className="cursor-pointer"
+                        >
+                            <svg aria-hidden="true" focusable="false" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M1 12H23" />
+                            </svg>
+                        </button>
+                    )}
+
+                        <span className="text-[1.5rem]">{time} hours</span>
+
+                    {!isEditing && (
+                        <button
+                            type="button"
+                            onClick={(event) => {
+                                changeTime(0.5, event)
+                                closeEditor()
+                            }}                        disabled={isTimeUpdating}
+                            aria-label="Increase time"
+                            className="cursor-pointer"
+                        >
+                            <svg aria-hidden="true" focusable="false" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 1V23M1 12H23" />
+                            </svg>
+                        </button>
+                    )}
+                </div>
+
+                <ProgresBar currentTime={time} targetTime={target} />
+                <p className="text-xl">target: {time}/{target}</p>
+
+                {isEditing && isEditingBlock && (
+                    <EditBlockForm
+                        onClose={closeEditor}
+                        onDelete={deleteBlock}
+                        onSave={handleSaveMethod}
+                        initialTitle={title}
+                        initialTime={time}
+                        initialTarget={target}
+                        initialIsActiveBlock={isActive}
+                    />
                 )}
-
-                    <span className="text-[1.5rem]">{time} hours</span>
-
-                {!isEditing && (
-                    <button
-                        type="button"
-                        onClick={(event) => {
-                            changeTime(0.5, event)
-                            closeEditor()
-                        }}                        disabled={isTimeUpdating}
-                        aria-label="Increase time"
-                        className="cursor-pointer"
-                    >
-                        <svg aria-hidden="true" focusable="false" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M12 1V23M1 12H23" />
-                        </svg>
-                    </button>
+                {!isEditing && isEditingBlock && (
+                    <BlockNote
+                        onClose={closeEditor}
+                        onSave={handleSaveDescription}
+                        block={{ ...block, description }}
+                    />
                 )}
-            </div>
-
-            <ProgresBar currentTime={time} targetTime={target} />
-            <p className="text-xl">target: {time}/{target}</p>
-
-            {isEditing && isEditingBlock && (
-                <EditBlockForm
-                    onClose={closeEditor}
-                    onDelete={deleteBlock}
-                    onSave={handleSaveMethod}
-                    initialTitle={title}
-                    initialTime={time}
-                    initialTarget={target}
-                    initialIsActiveBlock={isActive}
-                />
-            )}
-            {!isEditing && isEditingBlock && (
-                <BlockNote
-                    onClose={closeEditor}
-                    onSave={handleSaveDescription}
-                    block={{ ...block, description }}
-                />
-            )}
-        </article>
+            </article>
+        </div>
     );
 }
 
